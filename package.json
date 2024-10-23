@@ -1,0 +1,27 @@
+{
+  "name": "carrito",
+  "version": "1.0.0",
+  "description": "Nodejs Express Mysql ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./index.js",
+    "server": "nodemon index.js"
+  },
+  "keywords": [
+    "Nodejs",
+    "Express",
+    "Mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "mariadb": "^3.3.2",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
