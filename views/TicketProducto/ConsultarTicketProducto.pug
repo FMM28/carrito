@@ -1,0 +1,15 @@
+doctype html
+head
+  title Mis Compras
+    h1(class="text-center")=pagina 
+    div(class="row justify-content-center")
+    each t in ticket_productos 
+        div(class="col")
+            div(class="card")
+                img(src=`${c.imagen}`,class="card-img-top")
+                div(class="card-body align-self-center")
+                    <!--h6=`Nombre del Videojuego:${c.nombre}-->`
+                    h6=`Id del producto:${c.id_producto}`
+                    h6=`Cantidad:${c.cantidad}`
+                    <!--h6=`Precio:${c.precio}`-->
+                    

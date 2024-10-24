@@ -26,3 +26,4 @@ export const Producto = db.define(
         },
     }
 )
+export default Producto
