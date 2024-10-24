@@ -1,19 +1,66 @@
 doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  link(rel='stylesheet' href='/css/style.css')
-  title Gamer&apos;s hub
-main
-  section#plataforma
-    img#xbox(src='img/xbox.png' alt='xbox')
-    img#psp(src='img/ps.png' alt='PSP')
-    img#nintendo(src='img/nintendo.png' alt='nintendo')
-  section#juegos
-    h1#marca Selecciona una marca
-    #venta
-  aside
-    .carrito
-      h2 Carrito
-    .opciones
-script(src='/js/codigo.js')
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='/css/style.css')
+    title Gamer's Hub
+  body
+    nav
+      ul
+        li
+          if !user
+            a(href='/login') Iniciar sesión
+          else
+            a(href='/perfil') Perfil
+            a(href='/logout') Cerrar sesión
+            a(href='/misCompras') Mis compras
+    main
+      section#plataforma
+        img#xbox(src='/img/xbox.png' alt='Xbox')
+        img#psp(src='/img/ps.png' alt='PSP')
+        img#nintendo(src='/img/nintendo.png' alt='Nintendo')
+      section#juegos
+        if productos 
+          h1#marca Juegos de #{plataforma}
+          #venta
+            each producto in productos
+              .card
+                img(src=producto.imagen)
+                h3= producto.nombre
+                p Precio: $#{producto.precio}
+                a(href=producto.trailer target="_blank") Ver trailer
+                button(onclick='agregarAlCarrito({id:"#producto.id_producto",nombre: "#{producto.nombre}", precio: #{producto.precio}, imagen: "#{producto.imagen}"})') Añadir al carrito
+        else  
+          h1#marca Selecciona una marca
+          #venta
+      aside
+        .carrito
+          h2 Carrito
+            if carrito.length > 0
+              ul
+                each item in carrito
+                  li
+                    img(src=item.imagen, alt=item.nombre, width='50')
+                    | #{item.nombre} - $#{item.precio}
+            else
+              br
+              br
+              br
+              p No hay productos en el carrito.
+        .opciones
+    script(src='/js/codigo.js')
+    script.
+      const fondoPlataforma = document.querySelector('#plataforma');
+      const juegos = document.querySelector('#juegos');
+      if ('#{plataforma}' === 'Xbox') {
+          fondoPlataforma.style.backgroundColor = '#2ca243';
+          juegos.style.backgroundColor = '#77bb44';
+      } else if ('#{plataforma}' === 'PSP') {
+          fondoPlataforma.style.backgroundColor = '#182580';
+          juegos.style.backgroundColor = '#1e5ddb';
+      } else if ('#{plataforma}' === 'Nintendo') {
+          fondoPlataforma.style.backgroundColor = '#dd2020';
+          juegos.style.backgroundColor = '#ffffff';
+      }
+
