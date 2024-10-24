@@ -1,0 +1,20 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Login
+  link(rel='stylesheet' href='/css/style2.css')
+.box
+  form(action='index.pug' method='get')
+    h2 Bienvenido
+    .inputBox
+      input(type='text' required='required')
+      span Usuario
+      i
+    .inputBox
+      input(type='password' required='required')
+      span Contrase&ntilde;a
+      i
+    .links
+      a(href='#') Registrarse
+    input(type='submit' value='Ingresar')

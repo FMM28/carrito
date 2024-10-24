@@ -1,0 +1,32 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Registro
+  link(rel='stylesheet' href='/css/style2.css')
+.box
+  form(action='paginaDestino.html' method='GET')
+    h2 Registro
+    .inputBox
+      input(type='text' required='required')
+      span Nombre
+      i
+    .inputBox
+      input(type='text' required='required')
+      span Apellido Paterno
+      i
+    .inputBox
+      input(type='text' required='required')
+      span Apellido Materno
+      i
+    .inputBox
+      input(type='email' required='required')
+      span Email
+      i
+    .inputBox
+      input(type='tel' required='required')
+      span N&uacute;mero Telef&oacute;nico
+      i
+    .links
+      a(href='login.pug') &iquest;Ya tienes cuenta? Inicia Sesi&oacute;n
+    input(type='submit' value='Registrarse')
