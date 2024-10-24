@@ -26,41 +26,40 @@ html
           #venta
             each producto in productos
               .card
-                img(src=producto.imagen)
+                img(src=producto.imagen, alt=producto.nombre)
                 h3= producto.nombre
                 p Precio: $#{producto.precio}
                 a(href=producto.trailer target="_blank") Ver trailer
-                button(onclick='agregarAlCarrito({id:"#producto.id_producto",nombre: "#{producto.nombre}", precio: #{producto.precio}, imagen: "#{producto.imagen}"})') Añadir al carrito
+                button(onclick=`agregarAlCarrito({id: ${producto.id}, nombre: "${producto.nombre}", precio: ${producto.precio}, imagen: "${producto.imagen}"})`) Añadir al carrito
         else  
           h1#marca Selecciona una marca
-          #venta
       aside
         .carrito
           h2 Carrito
-            if carrito.length > 0
-              ul
-                each item in carrito
-                  li
-                    img(src=item.imagen, alt=item.nombre, width='50')
-                    | #{item.nombre} - $#{item.precio}
-            else
-              br
-              br
-              br
-              p No hay productos en el carrito.
+          if carrito.length > 0
+            ul
+              each item in carrito
+                li
+                  img(src=item.imagen, alt=item.nombre, width='50')
+                  | #{item.nombre} - $#{item.precio}
+          else
+            br
+            br
+            br
+            p No hay productos en el carrito.
         .opciones
     script(src='/js/codigo.js')
     script.
       const fondoPlataforma = document.querySelector('#plataforma');
       const juegos = document.querySelector('#juegos');
-      if ('#{plataforma}' === 'Xbox') {
+      const plataforma = '#{plataforma}'
+      if (plataforma === 'Xbox') {
           fondoPlataforma.style.backgroundColor = '#2ca243';
           juegos.style.backgroundColor = '#77bb44';
-      } else if ('#{plataforma}' === 'PSP') {
+      } else if (plataforma === 'PSP') {
           fondoPlataforma.style.backgroundColor = '#182580';
           juegos.style.backgroundColor = '#1e5ddb';
-      } else if ('#{plataforma}' === 'Nintendo') {
+      } else if (plataforma === 'Nintendo') {
           fondoPlataforma.style.backgroundColor = '#dd2020';
           juegos.style.backgroundColor = '#ffffff';
       }
-

@@ -4,7 +4,7 @@ import db from "../config/db.js";
 export const Producto = db.define(
     'productos',
     {
-        id_producto:{
+        id:{
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,

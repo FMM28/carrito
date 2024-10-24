@@ -21,8 +21,12 @@ app.set('views','./views')
 
 app.use(express.static('public'))
 app.use(session({
-    secret: 'huhbds98hnvw7'
+    secret: 'huhbds98hnvw7',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }))
+app.use(express.json()); 
 
 app.use('/',inicio)
 app.use('/productos',router_plataformas)

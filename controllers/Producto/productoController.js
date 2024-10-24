@@ -1,5 +1,6 @@
 import Producto from '../../models/Producto.js';
 import db from "../../config/db.js";
+import session from 'express-session';
 
 async function consulta(plataforma) {
     let productos = await db.query(
@@ -16,6 +17,7 @@ async function consulta(plataforma) {
 const accionMostrarXbox = async (req, res) => {
     const productos = await consulta('xbox');
     const carrito = req.session.carrito || [];
+    console.log(req.session.carrito);
     res.render('index', {
         plataforma: 'Xbox',
         productos: productos,
@@ -43,14 +45,24 @@ const accionMostrarPsp = async (req, res) => {
     });
 }
 
-const agregarCarrito = async(req,res)=>{
+const agregarCarrito = async (req, res) => {
     const producto = req.body;
+    console.log(producto)
 
     if (!req.session.carrito) {
         req.session.carrito = [];
     }
 
+    const productoExistente = req.session.carrito.find(item => item.id === producto.id);
+
+    if (productoExistente) {
+        return res.status(400).json({ message: 'El producto ya está en el carrito' });
+    }
+
     req.session.carrito.push(producto);
-}
+
+    return res.status(200).json({ message: `Producto agregado al carrito ${req.session.carrito}`, carrito: req.session.carrito });
+};
+
 
 export { accionMostrarXbox, accionMostrarNintendo, accionMostrarPsp, agregarCarrito };

@@ -20,11 +20,14 @@ function agregarAlCarrito(producto) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(producto)
+        body: JSON.stringify(producto) // Enviando el objeto del producto como JSON
     })
+    .then(response => response.json())
     .then(data => {
-        console.log('Producto añadido al carrito:', data);
+        console.log('Respuesta del servidor:', data);
         window.location.reload()
     })
-    .catch(error => console.error('Error al añadir al carrito:', error));
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
