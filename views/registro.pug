@@ -1,32 +1,34 @@
 doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Registro
-  link(rel='stylesheet' href='/css/style2.css')
-.box
-  form(action='paginaDestino.html' method='GET')
-    h2 Registro
-    .inputBox
-      input(type='text' required='required')
-      span Nombre
-      i
-    .inputBox
-      input(type='text' required='required')
-      span Apellido Paterno
-      i
-    .inputBox
-      input(type='text' required='required')
-      span Apellido Materno
-      i
-    .inputBox
-      input(type='email' required='required')
-      span Email
-      i
-    .inputBox
-      input(type='tel' required='required')
-      span N&uacute;mero Telef&oacute;nico
-      i
-    .links
-      a(href='login.pug') &iquest;Ya tienes cuenta? Inicia Sesi&oacute;n
-    input(type='submit' value='Registrarse')
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='/css/style2.css')
+    title Registro 
+block cuerpocontenido
+    h1.text-center Registro
+    if errores
+        div(class="row justify-content-center text-bg-danger")
+            div(class="col-md-4")
+                each er in errores
+                    h1(class="fw-bold fs-6")= er.msg
+    div(class="row justify-content-center")
+        div(class="col-md-5")
+            form(class="space-y-5" action="/registro" method="POST" noValidate)
+                div(class="mb-1")
+                    label(for="nombre" class="form-label") Nombre
+                    input#nombre(class="form-control" type="text" placeHolder="Ingrese su nombre" name="nombre" required)
+                div(class="mb-1")
+                    label(for="apaterno" class="form-label") Apellido Paterno
+                    input#apaterno(class="form-control" type="text" placeHolder="Apellido Paterno" name="ap_paterno" required)
+                div(class="mb-1")
+                    label(for="amaterno" class="form-label") Apellido Materno
+                    input#amaterno(class="form-control" type="text" placeHolder="Apellido Materno" name="ap_materno" required)
+                div(class="mb-1")
+                    label(for="email" class="form-label") Email
+                    input#email(class="form-control" type="email" placeHolder="Email" name="email" required)
+                div(class="mb-1")
+                    label(for="telefono" class="form-label") Teléfono
+                    input#telefono(class="form-control" type="text" placeHolder="Teléfono" name="telefono" required)
+                div(class="mb-1")
+                    button(type="submit" class="btn btn-primary col-auto") Enviar
