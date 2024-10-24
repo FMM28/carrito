@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2f2f2f, #484848);
+    padding: 10px;
+}
+
+.box {
+    position: relative;
+    width: 380px;
+    padding: 20px;
+    background: #1c1c1c;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.8);
+}
+
+.box form {
+    position: relative;
+    background: #222;
+    padding: 50px 40px;
+    border-radius: 8px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.box form h2 {
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+}
+
+.box form .inputBox {
+    position: relative;
+    margin-top: 35px;
+    width: 100%;
+}
+
+.box form .inputBox input {
+    width: 100%;
+    padding: 20px 10px 10px;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.box form .inputBox input:focus,
+.box form .inputBox input:valid {
+    border-color: #5E8BD2;
+}
+
+.box form .inputBox span {
+    position: absolute;
+    left: 0;
+    padding: 20px 0 10px;
+    pointer-events: none;
+    color: #8f8f8f;
+    font-size: 1em;
+    transition: 0.5s;
+}
+
+.box form .inputBox input:focus ~ span,
+.box form .inputBox input:valid ~ span {
+    color: #5E8BD2;
+    font-size: 0.75em;
+    transform: translateY(-34px);
+}
+
+.box form .inputBox i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.box form .inputBox input:focus ~ i,
+.box form .inputBox input:valid ~ i {
+    background: #5E8BD2;
+    height: 2px;
+}
+
+.box form .links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.box form .links a {
+    margin: 10px 0;
+    font-size: 0.85em;
+    color: #5E8BD2;
+    text-decoration: none;
+}
+
+.box form .links a:hover {
+    color: #fff;
+}
+
+.box form input[type="submit"] {
+    border: none;
+    outline: none;
+    padding: 10px 25px;
+    background: #5E8BD2;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 20px;
+    transition: background 0.5s ease;
+}
+
+.box form input[type="submit"]:hover {
+    background: #5E8BD2;
+}

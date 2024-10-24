@@ -1,7 +1,8 @@
 const inicio = (req,res)=>{
-    res.render('index')
+    const carrito = req.session.carrito || [];
+    res.render('index',{
+        carrito: carrito
+    })
 }
 
-export {
-    inicio
-}
+export {inicio}
