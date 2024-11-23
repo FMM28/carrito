@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../config/db.js";
 import Usuarios from "./Usuarios.js";
 
-export const Tickets = db.define(
+export const Ticket = db.define(
     "tickets",
     {
         id_ticket:{
@@ -36,11 +36,11 @@ export const Tickets = db.define(
     {timestamps:false}
 );
 
-Tickets.belongsTo(Usuarios,{
+Ticket.belongsTo(Usuarios,{
     foreignKey:{
         name:"id_usuario"
     }
 });
 
 
-export default Tickets
+export default Ticket
