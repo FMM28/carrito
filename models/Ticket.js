@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/db.js";
-import Usuarios from "./Usuarios.js";
+import Usuario from "./Usuarios.js";
 
 export const Ticket = db.define(
     "tickets",
@@ -36,13 +36,13 @@ export const Ticket = db.define(
     {timestamps:false}
 );
 
-Ticket.belongsTo(Usuarios,{
+Ticket.belongsTo(Usuario,{
     foreignKey:{
         name:"id_usuario"
     }
 });
 
-Usuarios.hasMany(Ticket,{
+Usuario.hasMany(Ticket,{
     foreignKey:{
         name: 'id_usuario',
     }

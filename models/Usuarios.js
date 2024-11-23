@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/db.js";
 
-export const Usuarios = db.define(
+export const Usuario = db.define(
     "usuarios",
     {
         id_usuario:{
@@ -39,7 +39,7 @@ export const Usuarios = db.define(
             defaultValue:'user',
         }        
     },
-    {timestamps:false}
+    {timestamps: false}
 );
 
-export default Usuarios;
+export default Usuario;

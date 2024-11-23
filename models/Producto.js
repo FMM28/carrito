@@ -35,8 +35,9 @@ export const Producto = db.define(
                 min: 0,
             },
         },
-    }
-)
+    },
+    {timestamps: false}
+);
 
 Juego.belongsTo(Producto, {
     foreignKey: {

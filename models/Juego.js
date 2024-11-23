@@ -22,7 +22,8 @@ export const Juego = db.define(
 
         },
         
-    }
+    },
+    {timestamps: false}
 )
 
 

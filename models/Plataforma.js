@@ -14,7 +14,8 @@ export const Plataforma = db.define(
             allowNull: false,
         },
         
-    }
+    },
+    {timestamps: false}
 )
 
 
