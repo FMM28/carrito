@@ -22,12 +22,18 @@ export const Producto = db.define(
         precio:{
             type: Sequelize.DECIMAL(10, 2),
             allowNull: false,
+            validate: {
+                min: 0,
+            },
 
         },
         stock:{
             type: Sequelize.INTEGER,
             allowNull: false,
-            defaultValue: '0',
+            defaultValue: 0,
+            validate:{
+                min: 0,
+            },
         },
     }
 )

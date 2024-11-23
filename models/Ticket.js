@@ -12,28 +12,35 @@ export const Tickets = db.define(
         },
         id_usuario:{
             type:Sequelize.INTEGER,
+            allowNull: false,
         },
         fecha:{
             type: Sequelize.DATE,
+            allowNull: false,
+            defaultValue:Sequelize.literal('CURRENT_DATE'),
         },
         hora:{
             type: Sequelize.TIME,
+            allowNull: false,
+            defaultValue: Sequelize.literal('CURRENT_TIME'),
+        },
+        total:{
+            type: Sequelize.DECIMAL(10,2),
+            allowNull: false,
+            validate:{
+                min: 0,
+            }
         }
                 
     },
     {timestamps:false}
 );
 
-Usuarios.hasOne(Tickets,{
-    foreignKey:{
-        name: "id_usuario"
-    }
-});
-
 Tickets.belongsTo(Usuarios,{
     foreignKey:{
         name:"id_usuario"
     }
 });
+
 
 export default Tickets
