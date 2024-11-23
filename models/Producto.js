@@ -38,16 +38,28 @@ export const Producto = db.define(
     }
 )
 
-Producto.belongsTo(Juego, {
+Juego.belongsTo(Producto, {
     foreignKey: {
         name: 'id_juego',
     },
 });
 
-Producto.belongsTo(Plataforma,{
+Plataforma.belongsTo(Producto,{
     foreignKey:{
         name: 'id_plataforma',
     },
 });
+
+Producto.hasOne(Juego,{
+    foreignKey:{
+        name: 'id_juego',
+    },
+});
+
+Producto.hasOne(Plataforma,{
+    foreignKey:{
+        name:'id_plataforma',
+    }
+})
 
 export default Producto

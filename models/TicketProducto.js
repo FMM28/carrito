@@ -39,19 +39,28 @@ export const TicketProducto = db.define(
 );
 
 
-TicketProducto.belongsTo(Producto,{
+Producto.belongsTo(TicketProducto,{
     foreignKey:{
         name: "id_producto"
     }
-})
+});
 
-TicketProducto.belongsTo(Ticket,{
+Ticket.belongsTo(TicketProducto,{
     foreignKey:{
         name: 'id_ticket',
     }
-})
+});
 
+TicketProducto.hasMany(Producto,{
+    foreignKey:{
+        name: 'id_producto', 
+    }
+});
 
-
+TicketProducto.hasOne(Ticket,{
+    foreignKey:{
+        name: 'id_ticket',
+    }
+});
 
 export default TicketProducto

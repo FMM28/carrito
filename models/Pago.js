@@ -1,30 +1,24 @@
 import { Sequelize } from "sequelize";
 import db from "../config/db.js";
-import Usuarios from "./Usuarios.js";
+import Ticket from "./Ticket.js";
 
-export const Ticket = db.define(
-    "tickets",
+export const Pago = db.define(
+    "pagos",
     {
-        id_ticket:{
+        id_pago:{
             type:Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        id_usuario:{
+        id_ticket:{
             type:Sequelize.INTEGER,
             allowNull: false,
         },
-        fecha:{
-            type: Sequelize.DATE,
+        forma_pago:{
+            type: Sequelize.ENUM('efectivo','tarjeta','transferencia'),
             allowNull: false,
-            defaultValue:Sequelize.literal('CURRENT_DATE'),
         },
-        hora:{
-            type: Sequelize.TIME,
-            allowNull: false,
-            defaultValue: Sequelize.literal('CURRENT_TIME'),
-        },
-        total:{
+        pago:{
             type: Sequelize.DECIMAL(10,2),
             allowNull: false,
             validate:{
@@ -36,16 +30,17 @@ export const Ticket = db.define(
     {timestamps:false}
 );
 
-Ticket.belongsTo(Usuarios,{
+
+Pago.belongsTo(Ticket,{
     foreignKey:{
-        name:"id_usuario"
+        name: "id_ticket"
     }
 });
 
-Usuarios.hasMany(Ticket,{
+Ticket.hasOne(Pago,{
     foreignKey:{
-        name: 'id_usuario',
+        name: 'id_ticket',
     }
 });
 
-export default Ticket
+export default Pago
