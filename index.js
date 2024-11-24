@@ -4,8 +4,11 @@ import cookieParser from "cookie-parser";
 import db from './config/db.js'
 import session from "express-session";
 
-import inicio from './routes/inicio_router.js'
+import router_inicio from './routes/inicio_router.js'
 import router_plataformas from "./routes/plataformas_router.js";
+import router_login from "./routes/login_router.js"
+import router_compras from "./routes/compras_router.js"
+import router_admin from "./routes/admin_router.js";
 
 const app = express()
 
@@ -36,8 +39,11 @@ app.use(session({
 app.use(express.json()); 
 
 // rutas
-app.use('/',inicio)
+app.use('/',router_inicio)
 app.use('/productos',router_plataformas)
+app.use('/users',router_login)
+app.use('/compras',router_compras)
+app.use('/admin',router_admin)
 
 const port = 2800
 app.listen(port,()=>{

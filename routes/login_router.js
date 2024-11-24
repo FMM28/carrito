@@ -1,8 +1,8 @@
 import express from 'express';
-import {} from '../controllers/login/loginController.js'
+import {inicioSesion} from '../controllers/login/loginController.js'
 
 const router = express.Router()
 
-router.get('/',inicio)
+router.get('/login',inicioSesion)
 
 export default router

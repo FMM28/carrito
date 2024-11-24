@@ -4,14 +4,12 @@ import { correoRegistro } from "../../helpers/correos.js";
 import { idGenera, JWTGenera } from "../../helpers/tokens.js";
 
 const inicioSesion = (req, res) => {
-  res.render("credenciales/login", {
-    pagina: "Autentificación",
+  res.render("login", {
     csrf: req.csrfToken(),
   });
 };
 const registrandoEnlace = (req, res) => {
   res.render("credenciales/registrar", {
-    pagina: "Alta Usuario",
     csrf: req.csrfToken(),
   });
 };

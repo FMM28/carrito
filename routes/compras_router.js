@@ -3,6 +3,6 @@ import {} from '../controllers/compras/comprasController.js'
 
 const router = express.Router()
 
-router.get('/',inicio)
+// router.get('/',inicio)
 
 export default router

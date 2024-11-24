@@ -1,27 +1,21 @@
 doctype html
-html
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet' href='/css/style2.css')
-    title Login
-block cuerpocontenido
-    h1.text-center Inicio de Sesión
-    if errores
-        div(class="row justify-content-center text-bg-danger" )
-            div(class="col-md-4")
-                each er in errores
-                    h1(class="fw-bold fs-6")=er.msg
-    div(class="row justify-content-center")
-        div(class="col-md-5")
-            form(class="space-y-5" action="/login" method="POST" noValidate)
-                div(class="mb-1")
-                    label(for="nombre" class="form-label") Nombre de Usuario
-                    input#nombre(class="form-control" type="text" placeHolder="Ingrese su nombre de usuario" name="nombre" value=dato?dato.nombre:'')
-                div(class="mb-1")
-                    label(for="password" class="form-label") Contraseña
-                    input#password(class="form-control" type="password" placeHolder="Ingrese su contraseña" name="password" value=dato?dato.password:'')
-                div(class="mb-1")
-                    button(type="submit" class="btn btn-primary col-auto") Ingresar
-                div(class="links")
-                    a(href="/register") ¿No tienes cuenta? Regístrate aquí
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel='stylesheet' href='/css/login_css.css')
+  title Login
+.login
+  .login-box
+    .avatar
+    h2 Iniciar Sesi&oacute;n
+    form.login-form(action='/credenciales' method='post')
+      div
+        label(for='username')
+          img(src='/img/usuario.svg' alt='Usuario')
+        input#username(type='text' name='username' placeholder='Usuario' required='')
+      div
+        label(for='password')
+          img(src='/img/password.svg' alt='Contraseña')
+        input#password(type='password' name='password' placeholder='Contraseña' required='')
+      button(type='submit') Entrar
+    a(href='/users/regitrar') Registrate
