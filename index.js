@@ -10,6 +10,7 @@ import router_login from "./routes/login_router.js"
 import router_compras from "./routes/compras_router.js"
 import router_admin from "./routes/admin_router.js";
 
+
 const app = express()
 
 app.use(express.urlencoded({extended:true}))

@@ -17,18 +17,18 @@ html(lang="en")
           thead.table-dark
             tr
               th #
+              th Usuario
               th Fecha
-              th Producto
-              th Cantidad
+              th Hora
               th Total
               th Acciones
           tbody
             each ticket in tickets
               tr
-                td= ticket.id
+                td= ticket.id_ticket
+                td= ticket.id_usuario
                 td= ticket.fecha
-                td= ticket.producto
-                td= ticket.cantidad
+                td= ticket.hora
                 td $#{ticket.total}
                 td
                   form(action=`/tickets/delete/${ticket.id}`, method="POST", style="display:inline;")
