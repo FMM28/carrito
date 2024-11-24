@@ -31,19 +31,5 @@ router.get('/tickets', async (req, res) => {
       res.status(500).send('Error en el servidor');
     }
   });
-  // Ruta para eliminar un ticket
-  /*router.post('/tickets/delete/:id', (req, res) => {
-    const id = req.params.id;
-    const deleteQuery = 'DELETE FROM tickets WHERE id = ?';
   
-    db.query(deleteQuery, [id], (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error al eliminar el ticket');
-      }
-  
-      console.log(`Ticket con ID ${id} eliminado correctamente.`);
-      res.redirect('/tickets');
-    });
-  });*/
 export default router

@@ -31,8 +31,33 @@ html(lang="en")
                 td= ticket.hora
                 td $#{ticket.total}
                 td
-                  form(action=`/tickets/delete/${ticket.id}`, method="POST", style="display:inline;")
+                  form(action=`/admin/tickets/delete/${ticket.id_ticket}`, method="POST", style="display:inline;")
                     button.btn.btn-danger.btn-sm Eliminar
 
+      // Paginación
+      if totalPages > 1
+        nav
+          ul.pagination.justify-content-center
+            if currentPage > 1
+              li.page-item
+                a.page-link(href=`/admin/tickets?page=${currentPage - 1}`) Anterior
+            else
+              li.page-item.disabled
+                span.page-link Anterior
+
+            each page in Array(totalPages).fill().map((_, i) => i + 1)
+              if page === currentPage
+                li.page-item.active
+                  span.page-link= page
+              else
+                li.page-item
+                  a.page-link(href=`/admin/tickets?page=${page}`)= page
+
+            if currentPage < totalPages
+              li.page-item
+                a.page-link(href=`/admin/tickets?page=${currentPage + 1}`) Siguiente
+            else
+              li.page-item.disabled
+                span.page-link Siguiente
 
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
