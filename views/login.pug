@@ -8,7 +8,8 @@ head
   .login-box
     .avatar
     h2 Iniciar Sesi&oacute;n
-    form.login-form(action='/credenciales' method='post')
+    form.login-form(action='/users/credenciales' method='post')
+      input(type="hidden" name="_csrf" value=csrf)
       div
         label(for='username')
           img(src='/img/usuario.svg' alt='Usuario')
@@ -18,4 +19,8 @@ head
           img(src='/img/password.svg' alt='Contraseña')
         input#password(type='password' name='password' placeholder='Contraseña' required='')
       button(type='submit') Entrar
-    a(href='/users/regitrar') Registrate
+    a(href='/users/registrar') Registrate
+  if errores
+    div(class="errores" )
+      each er in errores
+        h3=er.msg

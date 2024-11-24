@@ -8,111 +8,109 @@ const inicioSesion = (req, res) => {
     csrf: req.csrfToken(),
   });
 };
+
 const registrandoEnlace = (req, res) => {
-  res.render("credenciales/registrar", {
+  res.render("registro", {
     csrf: req.csrfToken(),
   });
 };
+
 const registrando = async (req, res) => {
   let valido = await validacionFormulario(req);
   if (!valido.isEmpty()) {
-    return res.render("credenciales/registrar", {
-      pagina: "Alta Usuario",
+    return res.render("registro", {
       csrf: req.csrfToken(),
       errores: valido.array(),
     });
   }
   const usuario = await Usuario.create({
-    nombre: req.body.usuario,
-    password: req.body.clave,
-    correo: req.body.correo,
-    id_rls: 2,
+    username: req.body.usuario,
+    password: req.body.password,
+    nombre: req.body.nombre,
+    ap_paterno: req.body.ap_paterno,
+    ap_materno: req.body.ap_materno,
+    email: req.body.email,
     token: idGenera(),
   });
   await usuario.save();
-  //mandar correo
-  //mandando el correo
   correoRegistro({
     nombre: usuario.nombre,
     correo: usuario.correo,
     token: usuario.token,
   });
-  //mostrar mensaje de confirmacions
-  res.render("credenciales/confirmacion", {
-    pagina: "Usuario se registro ,revisa tu correo de confirmación",
+  res.render("confirmacion", {
     csrf: req.csrfToken(),
   });
 };
+
 const confirmarIncripcionEnlace = async (req, res) => {
   const { token } = req.params;
-  //token valido
   const usuario = await Usuario.findOne({
     where: { token },
   });
   if (!usuario) {
-    res.render("credenciales/confirmacion", {
-      pagina: "No se pudo confirmar tu cuenta",
+    res.render("confirmacion", {
       mensaje:
         "Lo lamentamos no se pudo confirmar la cuenta intentalo de nuevo",
     });
   }
-  //confirmar la cuenta del usuario
   usuario.token = null;
   usuario.confirmar = true;
   await usuario.save();
-  res.render("credenciales/confirmacion", {
-    pagina: "Su cuenta se confirmo exitosamente",
-    mensaje: "Felicidades el registro se termino exitosamente",
-    enlace: "salto",
+  res.render("confirmacion", {
+    mensaje: "Su cuenta se registro exitosamente",
   });
 };
+
 async function validacionFormulario(req) {
   await check("usuario")
     .notEmpty()
     .withMessage("Usuario no debe ser vacio")
     .run(req);
-  await check("clave")
+  await check("password")
     .notEmpty()
-    .withMessage("Clave no debe ser vacio")
+    .withMessage("Contraseña no debe ser vacio")
     .run(req);
-  await check("correo")
+  await check("nombre")
     .notEmpty()
-    .withMessage("Correo no debe ser vacio")
+    .withMessage("Nombre no debe ser vacio")
+    .run(req);
+  await check("ap_paterno")
+    .notEmpty()
+    .withMessage("Apellido Paterno no debe ser vacio")
+    .run(req);
+  await check("email")
+    .notEmpty()
+    .withMessage("Email no debe ser vacio")
     .run(req);
   let salida = validationResult(req);
   return salida;
 }
+
 const credenciales = async (req, res) => {
   let valido = await validacionFormularioInicio(req);
   if (!valido.isEmpty()) {
-    return res.render("credenciales/login", {
-      pagina: "Alta Usuario",
+    return res.render("login", {
       csrf: req.csrfToken(),
       errores: valido.array(),
     });
   }
-  //comprobar si el usuario existe
-  const { correo, password } = req.body;
-  const us = await Usuario.findOne({ where: { correo } });
+  const { username, password } = req.body;
+  const us = await Usuario.findOne({ where: { username } });
   if (!us) {
-    return res.render("credenciales/login", {
-      pagina: "Alta Usuario",
+    return res.render("login", {
       csrf: req.csrfToken(),
       errores: [{ msg: "El usuario no existe" }],
     });
   }
-  //comprobar si el usuario esta confirmado
   if (!us.confirmar) {
-    return res.render("credenciales/login", {
-      pagina: "Alta Usuario",
+    return res.render("login", {
       csrf: req.csrfToken(),
       errores: [{ msg: "Tu cuenta no tiene confirmación, revisa tu correo" }],
     });
   }
-  //comprobando el password
   if (!us.verificandoClave(password)) {
-    return res.render("credenciales/login", {
-      pagina: "Alta Usuario",
+    return res.render("login", {
       csrf: req.csrfToken(),
       errores: [{ msg: "Credenciales no validas" }],
     });
@@ -121,27 +119,26 @@ const credenciales = async (req, res) => {
   const token = JWTGenera(us);
   console.log(us);
   console.log(token);
-  //crean jsonwebtoken
   return res
     .cookie("_token", token, {
       httpOnly: true,
-      //maxAge:60*1000
-      //secure:true
     })
-    .redirect("/hotel/mostrarHotel");
+    .redirect("/");
 };
+
 async function validacionFormularioInicio(req) {
-  await check("correo")
+  await check("username")
     .notEmpty()
-    .withMessage("El correo no debe ser vacio")
+    .withMessage("El usuario no debe ser vacio")
     .run(req);
   await check("password")
     .notEmpty()
-    .withMessage("Clave no debe ser vacio")
+    .withMessage("Ingresa tu contraseña")
     .run(req);
   let salida = validationResult(req);
   return salida;
 }
+
 export {
   inicioSesion,
   registrandoEnlace,
