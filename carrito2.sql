@@ -1,5 +1,5 @@
 -- Crear la base de datos
-CREATE DATABASE carrito;
+ --CREATE DATABASE carrito;
 
 -- Usar la base de datos
 USE carrito;
@@ -85,7 +85,7 @@ INSERT INTO juegos (nombre, imagen, trailer) VALUES
 ('Forza Horizon 5', 'img/forzaHorizon5.png', 'https://www.youtube.com/watch?v=FYH9n37B7Yw'),
 ('Gears 5', 'img/gears5.png', 'https://www.youtube.com/watch?v=APqBWniRQbQ'),
 ('Hellblade 2', 'img/fable.jpg', 'https://www.youtube.com/watch?v=qJWI4bkD9ZM'),
-('ARK II', 'img/ark2.png', 'https://www.youtube.com/watch?v=D8KbXpk2J9Y&t=1s');
+('ARK II', 'img/ark2.png', 'https://www.youtube.com/watch?v=D8KbXpk2J9Y&t=1s'),
 ('Starfield', 'img/starfield.png', 'https://www.youtube.com/watch?v=zmb2FJGvnAw'),
 ('Avowed', 'img/avowed.png', 'https://www.youtube.com/watch?v=ULsF7B6bFuU');
 
@@ -95,7 +95,7 @@ INSERT INTO juegos (nombre, imagen, trailer) VALUES
 ('God of War Ragnarok', 'img/gowRagnarok.png', 'https://www.youtube.com/watch?v=F3jePdO9_jc'),
 ('Horizon Forbidden West', 'img/horizonFW.png', 'https://www.youtube.com/watch?v=rw-TJfL-w2g'),
 ('Uncharted 4', 'img/uncharted4.png', 'https://www.youtube.com/watch?v=hh5HV4iic1Y'),
-('Bloodborne', 'bloodborne.png', 'https://www.youtube.com/watch?v=G203e1HhixY');
+('Bloodborne', 'bloodborne.png', 'https://www.youtube.com/watch?v=G203e1HhixY'),
 ('Spider-Man 2', 'img/spiderMan2.png', 'https://www.youtube.com/watch?v=rCIV0y8jNy4'),
 ('Returnal', 'img/returnal.png', 'https://www.youtube.com/watch?v=6VaVQxVWLMY');
 
@@ -105,7 +105,7 @@ INSERT INTO juegos (nombre, imagen, trailer) VALUES
 ('Super Mario Odyssey', 'img/superMarioOdy.png', 'https://www.youtube.com/watch?v=wGQHQc_3ycE'),
 ('Animal Crossing: New Horizons', 'img/aniCrosNewHor.png', 'https://www.youtube.com/watch?v=5YPxiTLMcdg'),
 ('Splatoon 3', 'img/splatoon3.png', 'https://www.youtube.com/watch?v=RPwwXvafJBY'),
-('Metroid Dread', 'img/metroidDread.png', 'https://www.youtube.com/watch?v=bbSdDDp9CNQ');
+('Metroid Dread', 'img/metroidDread.png', 'https://www.youtube.com/watch?v=bbSdDDp9CNQ'),
 ('Pikmin 4', 'img/pikmin-4.png', 'https://www.youtube.com/watch?v=HxlAJKI9jfQ'),
 ('Bayonetta 3', 'img/bayonetta3.png', 'https://www.youtube.com/watch?v=gOGJGv6OoXA');
 
@@ -122,7 +122,7 @@ INSERT INTO productos (id_juego, id_plataforma, precio, stock) VALUES
 (2, 1, 1000.00, 5), -- Forza Horizon 5
 (3, 1, 500.00, 5), -- Gears 5
 (4, 1, 1200.00, 5), -- Hellblade2
-(5, 1, 1000.00, 5); -- ARK 2
+(5, 1, 1000.00, 5), -- ARK 2
 (6, 1, 1300.00, 5), -- Starfield
 (7, 1, 1100.00, 5); -- Avowed
 
@@ -132,7 +132,7 @@ INSERT INTO productos (id_juego, id_plataforma, precio, stock) VALUES
 (9, 2, 1200.00, 5), -- God of War Ragnarok
 (10, 2, 1000.00, 5), -- Horizon Forbidden West
 (11, 2, 800.00, 5), -- Uncharted 4
-(12, 2, 500.00, 5); -- Bloodborne
+(12, 2, 500.00, 5), -- Bloodborne
 (13, 2, 1200.00, 5), -- Spider-Man 2
 (14, 2, 1100.00, 5); -- Returnal
 
@@ -142,7 +142,7 @@ INSERT INTO productos (id_juego, id_plataforma, precio, stock) VALUES
 (16, 3, 800.00, 5), -- Super Mario Odyssey
 (17, 3, 900.00, 5), -- Animal Crossing: New Horizons
 (18, 3, 1000.00, 5), -- Splatoon 3
-(19, 3, 1200.00, 5); -- Metroid Dread
+(19, 3, 1200.00, 5), -- Metroid Dread
 (20, 3, 900.00, 5), -- Pikmin 4
 (21, 3, 1000.00, 5); -- Bayonetta 3
 
