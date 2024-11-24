@@ -1,34 +1,37 @@
 doctype html
 html
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet' href='/css/style2.css')
-    title Registro 
-block cuerpocontenido
-    h1.text-center Registro
-    if errores
-        div(class="row justify-content-center text-bg-danger")
-            div(class="col-md-4")
-                each er in errores
-                    h1(class="fw-bold fs-6")= er.msg
-    div(class="row justify-content-center")
-        div(class="col-md-5")
-            form(class="space-y-5" action="/registro" method="POST" noValidate)
-                div(class="mb-1")
-                    label(for="nombre" class="form-label") Nombre
-                    input#nombre(class="form-control" type="text" placeHolder="Ingrese su nombre" name="nombre" required)
-                div(class="mb-1")
-                    label(for="apaterno" class="form-label") Apellido Paterno
-                    input#apaterno(class="form-control" type="text" placeHolder="Apellido Paterno" name="ap_paterno" required)
-                div(class="mb-1")
-                    label(for="amaterno" class="form-label") Apellido Materno
-                    input#amaterno(class="form-control" type="text" placeHolder="Apellido Materno" name="ap_materno" required)
-                div(class="mb-1")
-                    label(for="email" class="form-label") Email
-                    input#email(class="form-control" type="email" placeHolder="Email" name="email" required)
-                div(class="mb-1")
-                    label(for="telefono" class="form-label") Teléfono
-                    input#telefono(class="form-control" type="text" placeHolder="Teléfono" name="telefono" required)
-                div(class="mb-1")
-                    button(type="submit" class="btn btn-primary col-auto") Enviar
+    head
+      meta(charset='UTF-8')
+      meta(name='viewport' content='width=device-width, initial-scale=1.0')
+      link(rel='stylesheet' href='/css/login_css.css')
+      title Registro
+    body
+        .login 
+            .box
+              h1 Registrate
+              form(action='' method='post')
+                input(type="hidden" name="_csrf" value=csrf)
+                div
+                  label(for='username') Usuario
+                  input#username(type='text' name='username' required='')
+                div
+                  label(for='password') Contrase&ntilde;a
+                  input#password(type='password' name='password' required='')
+                div
+                  label(for='nombre') Nombre(s)
+                  input#nombre(type='text' name='nombre' required='')
+                div
+                  label(for='ap_paterno') Apellido Paterno
+                  input#ap_paterno(type='text' name='ap_paterno' required='')
+                div
+                  label(for='ap_materno') Apellido Materno
+                  input#ap_materno(type='text' name='ap_materno')
+                div
+                  label(for='email') Email
+                  input#email(type='email' name='email' placeholder='ejemplo@dominio.com' required='')
+                button(type='submit') Registrar
+    
+            if errores
+                div(class="errores" )
+                    each er in errores
+                        h3=er.msg

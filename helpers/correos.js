@@ -20,7 +20,7 @@ const correoRegistro = async (info) => {
 <p> Como estas ${nombre}, para terminar por favor comprueba la cuenta</p>
 <p> Confirma en el siguiente enlace:
 <a href="${process.env.URL_BACKEND}:${process.env.PORT_BACKEND ?? 2800}
-/confirmarinscripcion/${token}"> Confirmar </a>
+/users/confirmarinscripcion/${token}"> Confirmar </a>
 </p>
 <p>Si no solicitaste el registro, por favor ignora el mensaje</p>
 `,

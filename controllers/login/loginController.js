@@ -24,7 +24,7 @@ const registrando = async (req, res) => {
     });
   }
   const usuario = await Usuario.create({
-    username: req.body.usuario,
+    username: req.body.username,
     password: req.body.password,
     nombre: req.body.nombre,
     ap_paterno: req.body.ap_paterno,
@@ -35,7 +35,7 @@ const registrando = async (req, res) => {
   await usuario.save();
   correoRegistro({
     nombre: usuario.nombre,
-    correo: usuario.correo,
+    correo: usuario.email,
     token: usuario.token,
   });
   res.render("confirmacion", {
@@ -63,7 +63,7 @@ const confirmarIncripcionEnlace = async (req, res) => {
 };
 
 async function validacionFormulario(req) {
-  await check("usuario")
+  await check("username")
     .notEmpty()
     .withMessage("Usuario no debe ser vacio")
     .run(req);
