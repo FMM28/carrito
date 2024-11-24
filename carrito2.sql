@@ -40,7 +40,7 @@ CREATE TABLE usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     rol ENUM('user', 'admin') DEFAULT 'user',
     confirmar tinyint(1) DEFAULT 0,
-    token VARCHAR(50) NOT NULL
+    token VARCHAR(50)
 );
 
 -- Tabla de tickets
