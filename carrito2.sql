@@ -38,7 +38,9 @@ CREATE TABLE usuarios (
     ap_paterno VARCHAR(50) NOT NULL,
     ap_materno VARCHAR(50),
     email VARCHAR(100) NOT NULL UNIQUE,
-    rol ENUM('user', 'admin') DEFAULT 'user'
+    rol ENUM('user', 'admin') DEFAULT 'user',
+    confirmar tinyint(1) DEFAULT 0,
+    token VARCHAR(50) NOT NULL
 );
 
 -- Tabla de tickets

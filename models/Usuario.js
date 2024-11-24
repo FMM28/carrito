@@ -1,4 +1,5 @@
-import { Sequelize } from "sequelize";
+import Sequelize from "sequelize";
+import bcrypt from "bcrypt";
 import db from "../config/db.js";
 
 export const Usuario = db.define(
@@ -37,9 +38,30 @@ export const Usuario = db.define(
         rol:{
             type: Sequelize.ENUM('user','admin'),
             defaultValue:'user',
-        }        
+        },
+        confirmar: Sequelize.BOOLEAN,
+        token: Sequelize.STRING,       
     },
-    {timestamps: false}
+    {
+        timestamps: false,
+        hooks: {
+            beforeCreate: async function (usuario) {
+              const rep = await bcrypt.genSalt(10);
+              usuario.password = await bcrypt.hash(usuario.password, rep);
+            },
+        },
+        scopes: {
+            elimiarClave: {
+              attributes: {
+                exclude: ["token", "password", "confirmar", "rol"],
+              },
+            },
+        },
+    }
 );
+
+Usuario.prototype.verificandoClave = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 export default Usuario;

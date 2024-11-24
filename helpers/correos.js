@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
+
 const correoRegistro = async (info) => {
   const transport = nodemailer.createTransport({
     host: process.env.CORREO_HOST,
@@ -14,7 +15,7 @@ const correoRegistro = async (info) => {
   await transport.sendMail({
     from: "marquez.maya.francisco.28@gmail.com",
     to: correo,
-    subject: "Confirma tu registro de FES Aragon",
+    subject: "Confirma tu registro",
     html: `
 <p> Como estas ${nombre}, para terminar por favor comprueba la cuenta</p>
 <p> Confirma en el siguiente enlace:
@@ -25,4 +26,5 @@ const correoRegistro = async (info) => {
 `,
   });
 };
+
 export { correoRegistro };
