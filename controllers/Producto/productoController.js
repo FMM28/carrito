@@ -1,68 +1,196 @@
 import Producto from '../../models/Producto.js';
+import Juego from '../../models/Juego.js';
+import Plataforma from '../../models/Plataforma.js';
 import db from "../../config/db.js";
-import session from 'express-session';
 
 async function consulta(plataforma) {
-    let productos = await db.query(
-        `SELECT * FROM productos WHERE plataforma = ?`,
+    const productos = await db.query(
+        `SELECT id_producto, 
+                j.nombre AS nombre, 
+                precio, 
+                stock, 
+                imagen, 
+                trailer, 
+                pl.nombre AS plataforma 
+         FROM plataformas AS pl 
+         JOIN productos AS p ON pl.id_plataforma = p.id_plataforma 
+         JOIN juegos AS j ON p.id_juego = j.id_juego 
+         WHERE pl.nombre = ? and stock > 0`,
         {
             replacements: [plataforma],
-            model: Producto,
-            mapToModel: true
+            type: db.QueryTypes.SELECT
         }
     );
+
     return productos;
 }
 
 const accionMostrarXbox = async (req, res) => {
     const productos = await consulta('xbox');
-    const carrito = req.session.carrito || [];
-    console.log(req.session.carrito);
     res.render('index', {
+        csrf: req.csrfToken(),
         plataforma: 'Xbox',
-        productos: productos,
-        carrito: carrito
+        productos: productos
     });
 }
 
 const accionMostrarNintendo = async (req, res) => {
     const productos = await consulta('nintendo');
-    const carrito = req.session.carrito || [];
     res.render('index', {
+        csrf: req.csrfToken(),
         plataforma: 'Nintendo',
-        productos: productos,
-        carrito: carrito
+        productos: productos
     });
 }
 
 const accionMostrarPsp = async (req, res) => {
-    const productos = await consulta('psp');
-    const carrito = req.session.carrito || [];
+    const productos = await consulta('PlayStation');
     res.render('index', {
-        plataforma: 'PSP',
-        productos: productos,
-        carrito: carrito
+        csrf: req.csrfToken(),
+        plataforma: 'PlayStation',
+        productos: productos
     });
 }
 
 const agregarCarrito = async (req, res) => {
-    const producto = req.body;
-    console.log(producto)
+    try {
+        const { id_producto } = req.body;
 
-    if (!req.session.carrito) {
-        req.session.carrito = [];
+        const producto = await Producto.findOne({
+            where: { id_producto },
+            include: [
+                {
+                    model: Juego,
+                    as: 'juego', // Alias configurado en el modelo
+                    attributes: ['nombre','imagen'],
+                },
+                {
+                    model: Plataforma,
+                    as: 'plataforma', // Alias configurado en el modelo
+                    attributes: ['nombre'],
+                },
+            ],
+        });
+
+        if (!req.session.carrito) {
+            req.session.carrito = [];
+        }
+
+        const productoExistente = req.session.carrito.find(
+            item => item.id_producto === producto.id_producto
+        );
+
+        if (productoExistente) {
+            const cantidad = (productoExistente.cantidad || 1) + 1
+
+            const disponible = await verDisponibilidad(id_producto, cantidad);
+
+            if (!disponible) {
+                req.flash('error', `Stock insuficiente para este producto.`);
+                return res.redirect(req.get('Referer'));
+            }
+
+            productoExistente.cantidad = cantidad;
+            return res.redirect(req.get('Referer'))
+        }
+
+        req.session.carrito.push({
+            id_producto: producto.id_producto,
+            nombre: producto.juego.nombre,
+            precio: producto.precio,
+            imagen: producto.juego.imagen,
+            plataforma: producto.plataforma.nombre,
+            cantidad: 1,
+        });
+
+        return res.redirect(req.get('Referer'))
+    } catch (error) {
+        console.error('Error al agregar al carrito:', error)
     }
-
-    const productoExistente = req.session.carrito.find(item => item.id === producto.id);
-
-    if (productoExistente) {
-        return res.status(400).json({ message: 'El producto ya está en el carrito' });
-    }
-
-    req.session.carrito.push(producto);
-
-    return res.status(200).json({ message: `Producto agregado al carrito ${req.session.carrito}`, carrito: req.session.carrito });
 };
 
+const actualizarCarrito = async (req, res) => {
+    try {
+        const { id_producto, cantidad } = req.body;
 
-export { accionMostrarXbox, accionMostrarNintendo, accionMostrarPsp, agregarCarrito };
+        if (!id_producto || cantidad <= 0) {
+            req.flash('error', 'Cantidad inválida.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const productoExistente = req.session.carrito.find(
+            item => item.id_producto === parseInt(id_producto)
+        );
+
+        if (!productoExistente) {
+            req.flash('error', 'El producto no está en el carrito.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const disponible = await verDisponibilidad(id_producto, cantidad);
+
+        if (!disponible) {
+            req.flash('error', `Stock insuficiente para este producto.`);
+            return res.redirect(req.get('Referer'));
+        }
+
+        productoExistente.cantidad = parseInt(cantidad);
+        req.flash('success', `Cantidad actualizada a ${cantidad}.`);
+        return res.redirect(req.get('Referer'));
+
+    } catch (error) {
+        console.error('Error al actualizar el carrito:', error);
+        req.flash('error', 'Error interno del servidor.');
+        return res.redirect(req.get('Referer'));
+    }
+};
+
+async function verDisponibilidad(id_producto, cantidad) {
+    try {
+        const producto = await Producto.findOne({
+            where: { id_producto },
+            attributes: ['stock']
+        });
+
+        if (!producto) return false;
+        return producto.stock >= cantidad;
+    } catch (error) {
+        console.error('Error al verificar disponibilidad:', error);
+        return false; 
+    }
+}
+
+const eliminarCarrito = async (req,res) => {
+    try {
+        const { id_producto } = req.body;
+
+        if (!req.session.carrito) {
+            req.flash('error', 'El carrito está vacío.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const nuevoCarrito = req.session.carrito.filter(
+            item => item.id_producto !== parseInt(id_producto)
+        );
+
+        req.session.carrito = nuevoCarrito;
+
+        req.flash('success', 'Producto eliminado del carrito.');
+        return res.redirect(req.get('Referer'));
+    } catch (error) {
+        console.error('Error al eliminar del carrito:', error);
+        req.flash('error', 'Hubo un problema al eliminar el producto.');
+        return res.redirect(req.get('Referer'));
+    }
+
+}
+
+
+export { 
+    accionMostrarXbox, 
+    accionMostrarNintendo, 
+    accionMostrarPsp, 
+    agregarCarrito, 
+    actualizarCarrito, 
+    eliminarCarrito 
+};

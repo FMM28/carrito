@@ -6,61 +6,47 @@ import db from "../config/db.js";
 export const Producto = db.define(
     'productos',
     {
-        id_producto:{
+        id_producto: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        id_juego:{
+        id_juego: {
             type: Sequelize.INTEGER,
             allowNull: false,
         },
-        id_plataforma:{
+        id_plataforma: {
             type: Sequelize.INTEGER,
             allowNull: false,
         },
-        precio:{
+        precio: {
             type: Sequelize.DECIMAL(10, 2),
             allowNull: false,
             validate: {
                 min: 0,
             },
-
         },
-        stock:{
+        stock: {
             type: Sequelize.INTEGER,
             allowNull: false,
             defaultValue: 0,
-            validate:{
+            validate: {
                 min: 0,
             },
         },
     },
-    {timestamps: false}
+    { timestamps: false }
 );
 
-Juego.belongsTo(Producto, {
-    foreignKey: {
-        name: 'id_juego',
-    },
+// Relaciones correctas
+Producto.belongsTo(Juego, {
+    as: 'juego',
+    foreignKey: 'id_juego',
 });
 
-Plataforma.belongsTo(Producto,{
-    foreignKey:{
-        name: 'id_plataforma',
-    },
+Producto.belongsTo(Plataforma, {
+    as: 'plataforma',
+    foreignKey: 'id_plataforma',
 });
 
-Producto.hasOne(Juego,{
-    foreignKey:{
-        name: 'id_juego',
-    },
-});
-
-Producto.hasOne(Plataforma,{
-    foreignKey:{
-        name:'id_plataforma',
-    }
-})
-
-export default Producto
+export default Producto;

@@ -2,7 +2,6 @@ import Usuario from "../../models/Usuario.js";
 import { check, validationResult } from "express-validator";
 import { correoRegistro } from "../../helpers/correos.js";
 import { idGenera, JWTGenera } from "../../helpers/tokens.js";
-
 const inicioSesion = (req, res) => {
   res.render("login", {
     csrf: req.csrfToken(),

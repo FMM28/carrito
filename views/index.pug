@@ -30,7 +30,10 @@ html
                 h3= producto.nombre
                 p Precio: $#{producto.precio}
                 a(href=producto.trailer target="_blank") Ver trailer
-                button(onclick=`agregarAlCarrito({id: ${producto.id}, nombre: "${producto.nombre}", precio: ${producto.precio}, imagen: "${producto.imagen}"})`) Añadir al carrito
+                form(action="/productos/agregarCarrito", method="post")
+                  input(type="hidden" name="_csrf" value=csrf)
+                  input(type="hidden" name="id_producto" value=producto.id_producto) 
+                  button(type='submit') Añadir al carrito
         else  
           h1#marca Selecciona una marca
       aside
@@ -40,8 +43,23 @@ html
             ul
               each item in carrito
                 li
-                  img(src=item.imagen, alt=item.nombre, width='50')
-                  | #{item.nombre} - $#{item.precio}
+                  img(src=item.imagen, alt=item.nombre)
+                  .carrito-detalles
+                    .detalle
+                      p= item.plataforma
+                      h3= item.nombre
+                    .detalle
+                      p $#{item.precio} - 
+                      p 
+                        | Cantidad:
+                        form(action="/productos/actulizarCarrito",method='post') 
+                          input(type="hidden" name="_csrf" value=csrf)
+                          input(type="hidden" name="id_producto" value=item.id_producto)
+                          input(type="number" value=item.cantidad name="cantidad" min='1' onkeydown="if(event.key === 'Enter') this.form.submit()" onblur="this.form.submit()" onchange="this.form.submit()")
+                  form(action="/productos/eliminarCarrito",method="post")
+                    input(type="hidden" name="_csrf" value=csrf)
+                    input(type="hidden" name="id_producto" value=item.id_producto)
+                    button(type="submit") ×
           else
             br
             br
@@ -63,3 +81,7 @@ html
           fondoPlataforma.style.backgroundColor = '#dd2020';
           juegos.style.backgroundColor = '#ffffff';
       }
+    if (messages.error)
+      script.
+          alert("#{messages.error}");
+      

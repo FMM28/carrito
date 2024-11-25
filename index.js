@@ -3,6 +3,7 @@ import csrf from "csurf";
 import cookieParser from "cookie-parser";
 import db from './config/db.js'
 import session from "express-session";
+import flash from "connect-flash"
 
 import router_inicio from './routes/inicio_router.js'
 import router_plataformas from "./routes/plataformas_router.js";
@@ -37,11 +38,14 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }))
-app.use(express.json()); 
+app.use(express.json());
+app.use(flash()); 
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.rol = req.session.rol || null;
+    res.locals.carrito = req.session.carrito || [];
+    res.locals.messages = req.flash();
     next();
 });
 
