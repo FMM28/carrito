@@ -36,10 +36,10 @@ const mostrarTickets = async (req, res) => {
 
         // Renderizar la vista con datos
         res.render('Admin/tickets', {
+            csrf: req.csrfToken(),
             tickets,
             currentPage: page,
             totalPages,
-            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         console.error('Error al obtener los tickets:', error);
@@ -95,9 +95,9 @@ const mostrarProductosTicket = async (req, res) => {
 
         // Renderizar la vista
         res.render('Admin/productos', {
+            csrf: req.csrfToken(),
             ticket: { id_ticket },
             productos,
-            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         console.error('Error al obtener los productos del ticket:', error);

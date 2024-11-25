@@ -32,6 +32,8 @@ section{
     flex-wrap: wrap;
     gap:10px;
     padding: 10px;
+    height: 740px;
+    overflow: auto;
 }
 
 aside {
@@ -58,6 +60,8 @@ aside {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    height: 620px;
+    overflow: auto;
 }
 
 .carrito li{
@@ -123,6 +127,10 @@ aside {
     border-radius: 30px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
     padding: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 .card {
@@ -166,6 +174,24 @@ aside {
 .card a:hover {
     background-color: #0056b3;
 } 
+
+.card button{
+    display: inline-block;
+    padding: 10px 15px; 
+    background-color: #414141; 
+    color: white; 
+    border-radius: 5px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    height: 45px;
+}
+
+.card button:hover{
+    background-color: #686868; 
+}
 
 nav {
     background-color: #333;

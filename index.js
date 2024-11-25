@@ -46,6 +46,7 @@ app.use((req, res, next) => {
     res.locals.rol = req.session.rol || null;
     res.locals.carrito = req.session.carrito || [];
     res.locals.messages = req.flash();
+    res.locals.carrito_total = req.session.carrito_total || 0.0
     next();
 });
 
