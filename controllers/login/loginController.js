@@ -39,6 +39,7 @@ const registrando = async (req, res) => {
     token: usuario.token,
   });
   res.render("confirmacion", {
+    mensaje:"Revisa tu correo, se envio un correo de confirmacion",
     csrf: req.csrfToken(),
   });
 };
@@ -116,6 +117,9 @@ const credenciales = async (req, res) => {
     });
   }
 
+  req.session.user = username
+  req.session.rol = us.rol
+
   const token = JWTGenera(us);
   console.log(us);
   console.log(token);
@@ -139,10 +143,22 @@ async function validacionFormularioInicio(req) {
   return salida;
 }
 
+const cerrarSesion = async(req,res)=>{
+  req.session.destroy((err)=>{
+    if (err){
+      console.error("Error al borrar la sesion",err)
+      return res.status(500).send("Error al cerrar sesion")
+    }
+    res.clearCookie("_token")
+    res.redirect('/')
+  })
+}
+
 export {
   inicioSesion,
   registrandoEnlace,
   registrando,
   confirmarIncripcionEnlace,
   credenciales,
+  cerrarSesion
 };

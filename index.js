@@ -39,6 +39,12 @@ app.use(session({
 }))
 app.use(express.json()); 
 
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    res.locals.rol = req.session.rol || null;
+    next();
+});
+
 // rutas
 app.use('/',router_inicio)
 app.use('/productos',router_plataformas)
