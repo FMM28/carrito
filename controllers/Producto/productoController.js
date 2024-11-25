@@ -81,7 +81,16 @@ const agregarCarrito = async (req, res) => {
         );
 
         if (productoExistente) {
-            productoExistente.cantidad = (productoExistente.cantidad || 1) + 1;
+            const cantidad = (productoExistente.cantidad || 1) + 1
+
+            const disponible = await verDisponibilidad(id_producto, cantidad);
+
+            if (!disponible) {
+                req.flash('error', `Stock insuficiente para este producto.`);
+                return res.redirect(req.get('Referer'));
+            }
+
+            productoExistente.cantidad = cantidad;
             return res.redirect(req.get('Referer'))
         }
 
@@ -100,5 +109,88 @@ const agregarCarrito = async (req, res) => {
     }
 };
 
+const actualizarCarrito = async (req, res) => {
+    try {
+        const { id_producto, cantidad } = req.body;
 
-export { accionMostrarXbox, accionMostrarNintendo, accionMostrarPsp, agregarCarrito };
+        if (!id_producto || cantidad <= 0) {
+            req.flash('error', 'Cantidad inválida.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const productoExistente = req.session.carrito.find(
+            item => item.id_producto === parseInt(id_producto)
+        );
+
+        if (!productoExistente) {
+            req.flash('error', 'El producto no está en el carrito.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const disponible = await verDisponibilidad(id_producto, cantidad);
+
+        if (!disponible) {
+            req.flash('error', `Stock insuficiente para este producto.`);
+            return res.redirect(req.get('Referer'));
+        }
+
+        productoExistente.cantidad = parseInt(cantidad);
+        req.flash('success', `Cantidad actualizada a ${cantidad}.`);
+        return res.redirect(req.get('Referer'));
+
+    } catch (error) {
+        console.error('Error al actualizar el carrito:', error);
+        req.flash('error', 'Error interno del servidor.');
+        return res.redirect(req.get('Referer'));
+    }
+};
+
+async function verDisponibilidad(id_producto, cantidad) {
+    try {
+        const producto = await Producto.findOne({
+            where: { id_producto },
+            attributes: ['stock']
+        });
+
+        if (!producto) return false;
+        return producto.stock >= cantidad;
+    } catch (error) {
+        console.error('Error al verificar disponibilidad:', error);
+        return false; 
+    }
+}
+
+const eliminarCarrito = async (req,res) => {
+    try {
+        const { id_producto } = req.body;
+
+        if (!req.session.carrito) {
+            req.flash('error', 'El carrito está vacío.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const nuevoCarrito = req.session.carrito.filter(
+            item => item.id_producto !== parseInt(id_producto)
+        );
+
+        req.session.carrito = nuevoCarrito;
+
+        req.flash('success', 'Producto eliminado del carrito.');
+        return res.redirect(req.get('Referer'));
+    } catch (error) {
+        console.error('Error al eliminar del carrito:', error);
+        req.flash('error', 'Hubo un problema al eliminar el producto.');
+        return res.redirect(req.get('Referer'));
+    }
+
+}
+
+
+export { 
+    accionMostrarXbox, 
+    accionMostrarNintendo, 
+    accionMostrarPsp, 
+    agregarCarrito, 
+    actualizarCarrito, 
+    eliminarCarrito 
+};
