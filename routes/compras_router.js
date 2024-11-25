@@ -1,8 +1,8 @@
 import express from 'express';
-import {} from '../controllers/compras/comprasController.js'
+import {mostrarTicketsUsuario} from '../controllers/compras/comprasController.js'
 
 const router = express.Router()
 
-// router.get('/',inicio)
+router.get('/totalTicketsUsuarios', mostrarTicketsUsuario)
 
 export default router
