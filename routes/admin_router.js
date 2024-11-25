@@ -5,15 +5,15 @@ import rutaProteger from '../middleware/rutasProteger.js';
 const router = express.Router();
 
 // Ruta para listar tickets con paginación
-router.get('/tickets',rutaProteger, mostrarTickets)
+router.get('/tickets', mostrarTickets)
 
 
 // Ruta para eliminar un ticket
-router.post('/tickets/delete/:id',rutaProteger, eliminarTicket)
+router.post('/tickets/delete/:id', eliminarTicket)
 
-router.get('/tickets/:id_ticket/productos', rutaProteger, mostrarProductosTicket)
+router.get('/tickets/:id_ticket/productos', mostrarProductosTicket)
 
-router.get('/altaAdmin', rutaProteger, mostrarFormularioAltaAdmin)
-router.post('/altaAdmin', rutaProteger, darAltaAdmin)
+router.get('/altaAdmin', mostrarFormularioAltaAdmin)
+router.post('/altaAdmin', darAltaAdmin)
 
 export default router;

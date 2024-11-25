@@ -44,7 +44,7 @@ html(lang="en")
                   a.btn.btn-info.btn-sm.me-2(href=`/admin/tickets/${ticket.id_ticket}/productos`) Ver Productos
                   form(action=`/admin/tickets/delete/${ticket.id_ticket}`, method="POST", style="display:inline;")
                     input(type="hidden", name="_csrf", value=csrfToken)
-                    button.btn.btn-danger.btn-sm Eliminar
+                    button(type='submit').btn.btn-danger.btn-sm Eliminar
 
       br
       // Paginación

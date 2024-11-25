@@ -2,25 +2,27 @@ import jwt from "jsonwebtoken";
 import Usuario from "../models/Usuario.js";
 
 const rutaProteger = async (req, res, next) => {
-  //verificar si tiene un token
   const { _token } = req.cookies;
+
   if (!_token) {
-    return res.redirect("/");
+    return res.redirect("/"); // Redirigir si no hay token
   }
-  //Verificar si es el token que se espera
+
   try {
     const decoded = jwt.verify(_token, process.env.SC_JWT);
-    const usuario = await Usuario.scope("elimiarClave").findByPk(decoded.id_usuario);
-    //almacenar el usuario req
-    if (usuario) {
-      req.usuario = usuario;
-    } else {
-      return res.redirect("/");
+
+    const usuario = await Usuario.scope("eliminarClave").findByPk(decoded.id_usuario);
+
+    if (!usuario) {
+      return res.redirect("/"); // Redirigir si el usuario no existe
     }
-    return next();
+
+    req.usuario = usuario; // Almacenar usuario en `req`
+    next(); // Continuar al siguiente middleware
   } catch (error) {
-    return res.clearCookie("_token").redirect("/");
+    console.error("Error en rutaProteger:", error.message);
+    return res.clearCookie("_token").redirect("/"); // Limpiar cookie y redirigir
   }
-  next();
 };
+
 export default rutaProteger;
