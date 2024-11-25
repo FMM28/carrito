@@ -16,7 +16,7 @@ const mostrarTicketsUsuario = async (req, res) => {
             { type: db.QueryTypes.SELECT,});
 
         // Renderizar la vista con datos
-        res.render('Usuario/tickets', {
+        res.render('Usuario/totalTicketsUsuarios', {
             tickets,
             currentPage: page,
             totalPages,
