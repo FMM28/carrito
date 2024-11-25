@@ -1,0 +1,32 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Alta de Administrador
+    link(rel='stylesheet' href='/css/style.css')
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css", rel="stylesheet")
+  body
+    nav
+      ul
+        li
+          if !user
+            a(href='/users/login') Iniciar sesión
+          else
+            a(href='/') Inicio
+            a(href='/perfil') Perfil
+            a(href='/misCompras') Mis compras
+            a(href='/admin/tickets') Administracion  
+            a(href='/users/logout') Cerrar sesión
+    .container.mt-4
+      h1.text-center.mb-4 Alta de Administrador
+      form(action="/admin/altaAdmin" method="POST")
+        input(type="hidden" name="_csrf" value=csrf)
+        .mb-3
+          label.form-label(for="username") Nombre de Usuario
+          input.form-control(type="text" name="username" id="username" required placeholder="Ingresa el nombre de usuario o username")
+        button.btn.btn-primary(type="submit") Dar de Alta
+
+
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+

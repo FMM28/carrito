@@ -16,7 +16,7 @@ html(lang="en")
             a(href='/') Inicio
             a(href='/perfil') Perfil
             a(href='/misCompras') Mis compras
-            a(href='/admin/asignarAdmin') Crear Admininstrador  
+            a(href='/admin/altaAdmin') Crear Admininstrador  
             a(href='/users/logout') Cerrar sesión
     .container.mt-4
       h1.text-center.mb-4 Lista de Tickets de Compra
@@ -25,7 +25,8 @@ html(lang="en")
           thead.table-dark
             tr
               th #
-              th Usuario
+              th Username
+              th Nombre
               th Fecha
               th Hora
               th Total
@@ -34,6 +35,7 @@ html(lang="en")
             each ticket in tickets
               tr
                 td= ticket.id_ticket
+                td=ticket.username
                 td= ticket.usuario 
                 td= ticket.fecha
                 td= ticket.hora

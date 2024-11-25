@@ -1,5 +1,7 @@
 import db from '../../config/db.js';
 import Ticket from '../../models/Ticket.js';
+import Usuario from '../../models/Usuario.js';
+import { Op } from 'sequelize';
 
 const mostrarTickets = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -11,6 +13,7 @@ const mostrarTickets = async (req, res) => {
         const tickets = await db.query(
             `SELECT 
                 t.id_ticket,
+                u.username,
                 CONCAT(u.nombre, ' ', u.ap_paterno, ' ', IFNULL(u.ap_materno, '')) AS usuario,
                 t.fecha,
                 t.hora,
@@ -105,8 +108,58 @@ const mostrarProductosTicket = async (req, res) => {
     }
 };
 
+const mostrarFormularioAltaAdmin = (req, res) => {
+    try {
+        // Renderizar la vista altaAdmin
+        res.render('Admin/altaAdmin', {
+            csrf: req.csrfToken(), // Incluye un token CSRF para seguridad
+        });
+    } catch (error) {
+        console.error('Error al cargar el formulario de alta de administrador:', error);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
+const darAltaAdmin = async (req, res) => {
+    const username = req.body.username || req.body.nombre_usuario;
+
+    if (!username) {
+        console.error('El nombre de usuario no fue proporcionado.');
+        return res.status(400).send('Debe proporcionar un nombre de usuario.');
+    }
+
+    try {
+        const usuario = await Usuario.findOne({
+            where: {
+                [Op.or]: [
+                    { username: username },
+                    { nombre: username }
+                ]
+            }
+        });
+
+        if (!usuario) {
+            console.error(`Usuario no encontrado: ${username}`);
+            return res.status(404).send('Usuario no encontrado.');
+        }
+
+        usuario.rol = 'admin';
+        await usuario.save();
+
+        console.log(`Usuario actualizado: ${username} es ahora administrador.`);
+        res.redirect('/admin/altaAdmin?success=1');
+    } catch (error) {
+        console.error('Error al actualizar el rol del usuario:', error);
+        res.status(500).send('Error en el servidor.');
+    }
+};
+
+
+
 export {
     mostrarTickets,
     eliminarTicket,
-    mostrarProductosTicket
+    mostrarProductosTicket,
+    mostrarFormularioAltaAdmin,
+    darAltaAdmin, 
 };
