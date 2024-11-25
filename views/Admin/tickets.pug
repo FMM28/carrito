@@ -27,10 +27,10 @@ html(lang="en")
                 td= ticket.hora
                 td $#{ticket.total}
                 td
+                  a.btn.btn-info.btn-sm.me-2(href=`/admin/tickets/${ticket.id_ticket}/productos`) Ver Productos
                   form(action=`/admin/tickets/delete/${ticket.id_ticket}`, method="POST", style="display:inline;")
                     input(type="hidden", name="_csrf", value=csrfToken)
                     button.btn.btn-danger.btn-sm Eliminar
-                  a.btn.btn-info.btn-sm(href=`/admin/tickets/${ticket.id_ticket}/productos`) Ver Productos
 
       br
       // Paginación
