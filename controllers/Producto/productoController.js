@@ -2,7 +2,6 @@ import Producto from '../../models/Producto.js';
 import Juego from '../../models/Juego.js';
 import Plataforma from '../../models/Plataforma.js';
 import db from "../../config/db.js";
-import { where } from 'sequelize';
 
 async function consulta(plataforma) {
     const productos = await db.query(
@@ -161,5 +160,37 @@ async function verDisponibilidad(id_producto, cantidad) {
     }
 }
 
+const eliminarCarrito = async (req,res) => {
+    try {
+        const { id_producto } = req.body;
 
-export { accionMostrarXbox, accionMostrarNintendo, accionMostrarPsp, agregarCarrito, actualizarCarrito };
+        if (!req.session.carrito) {
+            req.flash('error', 'El carrito está vacío.');
+            return res.redirect(req.get('Referer'));
+        }
+
+        const nuevoCarrito = req.session.carrito.filter(
+            item => item.id_producto !== parseInt(id_producto)
+        );
+
+        req.session.carrito = nuevoCarrito;
+
+        req.flash('success', 'Producto eliminado del carrito.');
+        return res.redirect(req.get('Referer'));
+    } catch (error) {
+        console.error('Error al eliminar del carrito:', error);
+        req.flash('error', 'Hubo un problema al eliminar el producto.');
+        return res.redirect(req.get('Referer'));
+    }
+
+}
+
+
+export { 
+    accionMostrarXbox, 
+    accionMostrarNintendo, 
+    accionMostrarPsp, 
+    agregarCarrito, 
+    actualizarCarrito, 
+    eliminarCarrito 
+};
