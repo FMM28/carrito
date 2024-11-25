@@ -15,25 +15,46 @@ router.get('/tickets', csrfProtection, async (req, res) => {
     const offset = (page - 1) * limit;
 
     try {
-        const { count, rows: tickets } = await Ticket.findAndCountAll({
-            limit,
-            offset,
-        });
+        // Consulta SQL para obtener tickets con datos del usuario
+        const tickets = await db.query(
+            `SELECT 
+                t.id_ticket,
+                CONCAT(u.nombre, ' ', u.ap_paterno, ' ', IFNULL(u.ap_materno, '')) AS usuario,
+                t.fecha,
+                t.hora,
+                t.total
+            FROM 
+                tickets t
+            JOIN 
+                usuarios u ON t.id_usuario = u.id_usuario
+            LIMIT :limit OFFSET :offset`,
+            {
+                replacements: { limit, offset },
+                type: db.QueryTypes.SELECT,
+            }
+        );
 
-        const totalPages = Math.ceil(count / limit);
+        // Consulta para contar el total de tickets
+        const totalTickets = await db.query(
+            `SELECT COUNT(*) AS total FROM tickets`,
+            { type: db.QueryTypes.SELECT }
+        );
 
-        // Pasa el token CSRF a la vista
+        const totalPages = Math.ceil(totalTickets[0].total / limit);
+
+        // Renderizar la vista con datos
         res.render('Admin/tickets', {
             tickets,
             currentPage: page,
             totalPages,
-            csrfToken: req.csrfToken(),  // Genera el token CSRF
+            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         console.error('Error al obtener los tickets:', error);
         res.status(500).send('Error en el servidor');
     }
 });
+
 
 // Ruta para eliminar un ticket
 router.post('/tickets/delete/:id', csrfProtection, async (req, res) => {
