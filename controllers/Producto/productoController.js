@@ -91,6 +91,7 @@ const agregarCarrito = async (req, res) => {
             }
 
             productoExistente.cantidad = cantidad;
+            req.session.carrito_total = await calcularTotal(req.session.carrito)
             return res.redirect(req.get('Referer'))
         }
 
@@ -102,7 +103,8 @@ const agregarCarrito = async (req, res) => {
             plataforma: producto.plataforma.nombre,
             cantidad: 1,
         });
-
+        
+        req.session.carrito_total = await calcularTotal(req.session.carrito)
         return res.redirect(req.get('Referer'))
     } catch (error) {
         console.error('Error al agregar al carrito:', error)
@@ -135,6 +137,7 @@ const actualizarCarrito = async (req, res) => {
         }
 
         productoExistente.cantidad = parseInt(cantidad);
+        req.session.carrito_total = await calcularTotal(req.session.carrito)
         req.flash('success', `Cantidad actualizada a ${cantidad}.`);
         return res.redirect(req.get('Referer'));
 
@@ -174,6 +177,7 @@ const eliminarCarrito = async (req,res) => {
         );
 
         req.session.carrito = nuevoCarrito;
+        req.session.carrito_total = await calcularTotal(req.session.carrito)
 
         req.flash('success', 'Producto eliminado del carrito.');
         return res.redirect(req.get('Referer'));
@@ -183,6 +187,15 @@ const eliminarCarrito = async (req,res) => {
         return res.redirect(req.get('Referer'));
     }
 
+}
+
+async function calcularTotal(carrito) {
+
+    const total = carrito.reduce((acumulado, producto) => {
+        return acumulado + producto.precio * producto.cantidad;
+    }, 0);
+
+    return total
 }
 
 

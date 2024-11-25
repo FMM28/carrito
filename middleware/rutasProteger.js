@@ -10,7 +10,7 @@ const rutaProteger = async (req, res, next) => {
   //Verificar si es el token que se espera
   try {
     const decoded = jwt.verify(_token, process.env.SC_JWT);
-    const usuario = await Usuario.scope("elimiarClave").findByPk(decoded.id);
+    const usuario = await Usuario.scope("elimiarClave").findByPk(decoded.id_usuario);
     //almacenar el usuario req
     if (usuario) {
       req.usuario = usuario;

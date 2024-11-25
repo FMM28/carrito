@@ -1,18 +1,15 @@
 import express from 'express';
-import csrf from 'csurf';
 import { mostrarTickets, eliminarTicket, mostrarProductosTicket } from '../controllers/admin/adminController.js';
+import rutaProteger from '../middleware/rutasProteger.js';
 
 const router = express.Router();
 
-// Middleware para CSRF
-const csrfProtection = csrf({ cookie: true });
-
 // Ruta para listar tickets con paginación
-router.get('/tickets', csrfProtection, mostrarTickets)
+router.get('/tickets',rutaProteger, mostrarTickets)
 
 
 // Ruta para eliminar un ticket
-router.post('/tickets/delete/:id', csrfProtection, eliminarTicket)
+router.post('/tickets/delete/:id',rutaProteger, eliminarTicket)
 
-router.get('/tickets/:id_ticket/productos', csrfProtection, mostrarProductosTicket)
+router.get('/tickets/:id_ticket/productos',rutaProteger, mostrarProductosTicket)
 export default router;
