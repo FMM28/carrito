@@ -95,7 +95,7 @@ INSERT INTO juegos (nombre, imagen, trailer) VALUES
 ('God of War Ragnarok', 'img/gowRagnarok.png', 'https://www.youtube.com/watch?v=F3jePdO9_jc'),
 ('Horizon Forbidden West', 'img/horizonFW.png', 'https://www.youtube.com/watch?v=rw-TJfL-w2g'),
 ('Uncharted 4', 'img/uncharted4.png', 'https://www.youtube.com/watch?v=hh5HV4iic1Y'),
-('Bloodborne', 'bloodborne.png', 'https://www.youtube.com/watch?v=G203e1HhixY'),
+('Bloodborne', 'img/bloodborne.png', 'https://www.youtube.com/watch?v=G203e1HhixY'),
 ('Spider-Man 2', 'img/spiderMan2.png', 'https://www.youtube.com/watch?v=rCIV0y8jNy4'),
 ('Returnal', 'img/returnal.png', 'https://www.youtube.com/watch?v=6VaVQxVWLMY');
 
