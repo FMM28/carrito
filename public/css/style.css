@@ -54,6 +54,69 @@ aside {
     text-align: center;
 }
 
+.carrito ul{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.carrito li{
+    list-style: none;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    background-color: #dedede;
+    border-radius: 10px;
+}
+
+.carrito img{
+    height: 75px;
+    max-width: 75px;
+    object-fit: cover;
+}
+
+.carrito p{
+    text-align: center;
+}
+
+.carrito-detalles{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.detalle{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.detalle input{
+    width: 50px;
+    padding: 5px;
+    border: 0;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.carrito button{
+    background-color: #dedede;
+    border: none;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.carrito button:hover{
+    color: red;
+}
+
 .opciones{
     flex: 1;
     background-color: rgb(187, 187, 187);
