@@ -42,6 +42,7 @@ app.use(express.json());
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.rol = req.session.rol || null;
+    res.locals.carrito = req.session.carrito || [];
     next();
 });
 
