@@ -57,4 +57,40 @@ router.post('/tickets/delete/:id', csrfProtection, async (req, res) => {
     }
 });
 
+router.get('/tickets/:id_ticket/productos', csrfProtection, async (req, res) => {
+    const { id_ticket } = req.params;
+
+    try {
+        // Consulta SQL para obtener los productos del ticket
+        const productos = await db.query(
+            `SELECT 
+                j.nombre AS nombre_juego, 
+                tp.cantidad, 
+                tp.precio
+            FROM 
+                ticket_productos tp
+            JOIN 
+                productos p ON tp.id_producto = p.id_producto
+            JOIN 
+                juegos j ON p.id_juego = j.id_juego
+            WHERE 
+                tp.id_ticket = :id_ticket`,
+            { 
+                replacements: { id_ticket }, 
+                type: db.QueryTypes.SELECT 
+            }
+        );
+
+        // Renderizar la vista
+        res.render('Admin/productos', {
+            ticket: { id_ticket },
+            productos,
+            csrfToken: req.csrfToken(),
+        });
+    } catch (error) {
+        console.error('Error al obtener los productos del ticket:', error);
+        res.status(500).send('Error en el servidor');
+    }
+});
+
 export default router;

@@ -12,22 +12,19 @@ html(lang="en")
         table.table.table-striped.table-hover
           thead.table-dark
             tr
-              th #
-              th Nombre del Producto
+              th Nombre del Juego
               th Cantidad
-              th Precio
+              th Precio Unitario
               th Subtotal
           tbody
             each producto in productos
                 tr
-                    td= producto.id_producto
-                    td= producto.nombre
+                    td= producto.nombre_juego
                     td= producto.cantidad
-                    td $#{producto.precio}
-                    td $#{producto.cantidad * producto.precio}
+                    td $#{producto.precio.toFixed(2)}
+                    td $#{(producto.cantidad * producto.precio).toFixed(2)}
 
       br
-      // Botón para regresar a la lista de tickets
       .text-center.mt-4
         a.btn.btn-primary(href="/admin/tickets") Volver a la Lista de Tickets
 
