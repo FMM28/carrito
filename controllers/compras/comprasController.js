@@ -16,10 +16,8 @@ const mostrarTicketsUsuario = async (req, res) => {
             { type: db.QueryTypes.SELECT,});
 
         // Renderizar la vista con datos
-        res.render('Usuario/totalTicketsUsuarios', {
+        res.render('Usuario/compras', {
             tickets,
-            currentPage: page,
-            totalPages,
             csrfToken: req.csrfToken(),
         });
     } catch (error) {

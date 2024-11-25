@@ -3,6 +3,6 @@ import {mostrarTicketsUsuario} from '../controllers/compras/comprasController.js
 
 const router = express.Router()
 
-router.get('/totalTicketsUsuarios', mostrarTicketsUsuario)
+router.get('/compras', mostrarTicketsUsuario)
 
 export default router
