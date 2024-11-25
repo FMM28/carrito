@@ -64,7 +64,8 @@ router.get('/tickets/:id_ticket/productos', csrfProtection, async (req, res) => 
         // Consulta SQL para obtener los productos del ticket
         const productos = await db.query(
             `SELECT 
-                j.nombre AS nombre_juego, 
+                j.nombre AS nombre_juego,
+                j.imagen AS imagen_juego, 
                 tp.cantidad, 
                 tp.precio
             FROM 
