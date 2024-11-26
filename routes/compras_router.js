@@ -3,7 +3,7 @@ import {mostrarTicketsUsuario,comprar} from '../controllers/compras/comprasContr
 
 const router = express.Router()
 
-router.get('/compras', mostrarTicketsUsuario)
+router.get('/', mostrarTicketsUsuario)
 router.post('/comprar',comprar)
 
 export default router

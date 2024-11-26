@@ -11,35 +11,29 @@ html
         li
           if !user
             a(href='/users/login') Iniciar sesión
-          else if user 
-            a(href='/perfil') Perfil
-            a(href='/index') Inicio
-            a(href='/users/logout') Cerrar sesión
           else
+            a(href='/') Inicio
             if rol == 'admin'
-            a(href='/admin/tickets') Administración
-            a(href='/admin/altaAdmin') Alta Admininstrador
-            a(href='/admin/stock') Stock de productos
-            a(href='/perfil') Perfil
-            a(href='/index') Inicio
+              a(href='/admin/tickets') Administración
+              a(href='/admin/altaAdmin') Alta Admininstrador
+              a(href='/admin/stock') Stock de productos
+            a(href='/users/perfil/'+user) Perfil
             a(href='/users/logout') Cerrar sesión
     main
-  section#compras
-    if tickets && tickets.length > 0
-      h1 Mis Tickets
-      .grid-container
-        each ticket in tickets
-          .card
-            .ticket-detalles
-              h3= `Ticket #${ticket.id_ticket}`
-              p Fecha: #{ticket.fecha}
-              p Hora: #{ticket.hora}
-              p Total: $#{ticket.total}
-              form(action="/tickets/detalle" method="post")
-                input(type="hidden" name="_csrf" value=csrfToken)
-                input(type="hidden" name="id_ticket" value=ticket.id_ticket)
-                button(type="submit") Ver Detalle
-    else
-      h1 No tienes tickets registrados
-
-    script(src='/js/codigo.js')
+      section#compras
+        if tickets && tickets.length > 0
+          h1 Mis Tickets
+          .grid-container
+            each ticket in tickets
+              .card
+                .ticket-detalles
+                  h3= `Ticket #${ticket.id_ticket}`
+                  p Fecha: #{ticket.fecha}
+                  p Hora: #{ticket.hora}
+                  p Total: $#{ticket.total}
+                  form(action="/compras/detalle" method="post")
+                    input(type="hidden" name="_csrf" value=csrf)
+                    input(type="hidden" name="id_ticket" value=ticket.id_ticket)
+                    button(type="submit") Ver Detalle
+        else
+          h1 No tienes tickets registrados
