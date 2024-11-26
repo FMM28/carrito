@@ -19,9 +19,9 @@ const mostrarTicketsUsuario = async (req, res) => {
             { type: db.QueryTypes.SELECT,});
 
         // Renderizar la vista con datos
-        res.render('Usuario/compras', {
+        res.render('compras', {
+            csrf: req.csrfToken(),
             tickets,
-            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         console.error('Error al obtener los tickets del usuario:', error);

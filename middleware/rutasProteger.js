@@ -11,7 +11,7 @@ const rutaProteger = async (req, res, next) => {
   try {
     const decoded = jwt.verify(_token, process.env.SC_JWT);
 
-    const usuario = await Usuario.scope("eliminarClave").findByPk(decoded.id_usuario);
+    const usuario = await Usuario.scope("eliminarClave").findByPk(decoded.id);
 
     if (!usuario) {
       return res.redirect("/"); // Redirigir si el usuario no existe
@@ -21,7 +21,6 @@ const rutaProteger = async (req, res, next) => {
     next(); // Continuar al siguiente middleware
   } catch (error) {
     console.error("Error en rutaProteger:", error.message);
-    return res.clearCookie("_token").redirect("/"); // Limpiar cookie y redirigir
   }
 };
 
