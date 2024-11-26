@@ -5,7 +5,12 @@ import TicketProducto from "../../models/TicketProducto.js"
 
 const mostrarTicketsUsuario = async (req, res) => {
     try {
-        // Consulta SQL para obtener los tickets del usuario
+        console.log(req.usuario); // Verifica que contiene los datos del usuario logueado
+
+        // Obtener el ID del usuario logueado
+        const usuarioId = req.usuario.id_usuario;
+
+        // Consulta SQL para obtener los tickets del usuario logueado
         const tickets = await db.query(
             `SELECT 
                 t.id_ticket,
@@ -15,13 +20,17 @@ const mostrarTicketsUsuario = async (req, res) => {
             FROM 
                 tickets t
             WHERE 
-                t.id_usuario`,
-            { type: db.QueryTypes.SELECT,});
+                t.id_usuario = :usuarioId`,
+            {
+                replacements: { usuarioId }, // Reemplazar el parámetro en la consulta
+                type: db.QueryTypes.SELECT,
+            }
+        );
+
         // Renderizar la vista con datos
-        res.render('compras', {
+        res.render('misCompras', {
             csrf: req.csrfToken(),
             tickets,
-            ticket_productos,
         });
     } catch (error) {
         console.error('Error al obtener los tickets del usuario:', error);
@@ -29,24 +38,49 @@ const mostrarTicketsUsuario = async (req, res) => {
     }
 };
 
-const detalles = async (req, res) => {
-    const ticket_productos = await db.query(
-        `SELECT
-            tp.id_ticket_producto,
-            tp.id_producto,
-            tp.cantidad,
-            tp.precio
-        FROM
-            ticket_productos tp
-        JOIN
-            tickets t ON tp.id_ticket = t.id_ticket`,
-        { type: db.QueryTypes.SELECT,})
+const mostrarProductosTicket = async (req, res) => {
+    const { id_ticket } = req.params;
 
-        res.render('detalle', {
+    try {
+        // Consulta SQL para obtener los productos del ticket
+        const productos = await db.query(
+            `SELECT 
+                j.nombre AS nombre_juego,
+                j.imagen AS imagen_juego, 
+                tp.cantidad, 
+                tp.precio,
+                (tp.cantidad * tp.precio) AS subtotal
+            FROM 
+                ticket_productos tp
+            JOIN 
+                productos p ON tp.id_producto = p.id_producto
+            JOIN 
+                juegos j ON p.id_juego = j.id_juego
+            WHERE 
+                tp.id_ticket = :id_ticket`,
+            { 
+                replacements: { id_ticket }, 
+                type: db.QueryTypes.SELECT 
+            }
+        );
+
+        if (productos.length === 0) {
+            req.flash("error", "No se encontraron productos para este ticket.");
+            return res.redirect('/mis-tickets');
+        }
+
+        // Renderizar la vista con los productos del ticket
+        res.render('productosTicket', {
             csrf: req.csrfToken(),
-            ticket_productos,
+            productos,
+            ticketId: id_ticket,
         });
-}
+    } catch (error) {
+        console.error('Error al obtener los productos del ticket:', error);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
 
 const comprar = async (req,res) =>{
     const { carrito, carrito_total, user } = req.session;
@@ -106,7 +140,7 @@ const comprar = async (req,res) =>{
     }
 }
 
-export { mostrarTicketsUsuario, comprar, detalles };
+export { mostrarTicketsUsuario, comprar, mostrarProductosTicket };
 
 
 
