@@ -24,3 +24,7 @@ head
     div(class="errores" )
       each er in errores
         h3=er.msg
+
+  if (messages.error)
+    script.
+        alert("#{messages.error}");

@@ -116,7 +116,7 @@ const credenciales = async (req, res) => {
     });
   }
 
-  req.session.user = username
+  req.session.user = us.id_usuario
   req.session.rol = us.rol
 
   const token = JWTGenera(us);

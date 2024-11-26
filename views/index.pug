@@ -67,9 +67,15 @@ html
             br
             br
             br
+            br
+            br
             p No hay productos en el carrito.
         .opciones
           h2='TOTAL: $'+carrito_total
+          form(action="/compras/comprar", method="post")
+            input(type="hidden" name="_csrf" value=csrf)
+            button(type="submit") Comprar
+
     script(src='/js/codigo.js')
     script.
       const fondoPlataforma = document.querySelector('#plataforma');
@@ -78,7 +84,7 @@ html
       if (plataforma === 'Xbox') {
           fondoPlataforma.style.backgroundColor = '#2ca243';
           juegos.style.backgroundColor = '#77bb44';
-      } else if (plataforma === 'PSP') {
+      } else if (plataforma === 'PlayStation') {
           fondoPlataforma.style.backgroundColor = '#182580';
           juegos.style.backgroundColor = '#1e5ddb';
       } else if (plataforma === 'Nintendo') {
@@ -88,4 +94,8 @@ html
     if (messages.error)
       script.
           alert("#{messages.error}");
+
+    if (messages.success)
+      script.
+          alert("#{messages.success}");
       

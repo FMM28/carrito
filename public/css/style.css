@@ -131,6 +131,30 @@ aside {
     align-items: center;
     text-align: center;
     justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.opciones form{
+    width: 100%;
+}
+
+.opciones button{
+    border: none;
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #333;
+    color: #ffffff;
+}
+
+.opciones button:hover{
+    background-color: #494949;
+    font-size: 25px;
 }
 
 .card {

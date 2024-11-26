@@ -58,6 +58,6 @@ app.use('/compras',router_compras)
 app.use('/admin',router_admin)
 
 const port = 2800
-app.listen(port,'192.168.1.107',()=>{
+app.listen(port,()=>{
     console.log(`Esperando peticion en el puerto ${port}`)
 })
