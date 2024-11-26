@@ -2,6 +2,7 @@ import Usuario from "../../models/Usuario.js";
 import { check, validationResult } from "express-validator";
 import { correoRegistro } from "../../helpers/correos.js";
 import { idGenera, JWTGenera } from "../../helpers/tokens.js";
+
 const inicioSesion = (req, res) => {
   res.render("login", {
     csrf: req.csrfToken(),
@@ -153,11 +154,23 @@ const cerrarSesion = async(req,res)=>{
   })
 }
 
+const verPerfil = async(req,res) => {
+  const { id_usuario } = req.params
+  const usuario = await Usuario.findOne({
+    where: { id_usuario },
+  });
+  res.render("perfil",{
+    csrf: req.csrfToken(),
+    usuario: usuario
+  })
+}
+
 export {
   inicioSesion,
   registrandoEnlace,
   registrando,
   confirmarIncripcionEnlace,
   credenciales,
-  cerrarSesion
+  cerrarSesion,
+  verPerfil
 };

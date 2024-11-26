@@ -1,0 +1,44 @@
+doctype html
+html
+  head
+    title Usuarios
+    link(rel="stylesheet" href="/css/style.css")
+    link(rel="stylesheet" href="/css/stylePerfil.css")
+  body
+    nav
+      ul
+        li
+        if !user
+          a(href='/users/login') Iniciar sesión
+        else
+          if rol == 'admin'
+            li
+              a(href='/admin/tickets') Administración
+            li
+              a(href='/admin/altaAdmin') Alta Administrador
+            li
+              a(href='/admin/stock') Stock de productos
+          li
+            a(href='/misCompras') Mis compras
+          li
+            a(href='/users/logout') Cerrar sesión
+
+    main.container
+      h1 Perfil del Usuario
+      if usuario
+        section.user-details
+          ul
+            li
+              strong Usuario: 
+              span= usuario.username
+            li
+              strong Nombre completo: 
+              span= `${usuario.nombre} ${usuario.ap_paterno} ${usuario.ap_materno || ''}`
+            li
+              strong Correo electrónico: 
+              span= usuario.email
+            li
+              strong Rol: 
+              span= usuario.rol
+      else
+        p No se encontró la información del usuario.
