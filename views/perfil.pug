@@ -42,3 +42,6 @@ html
               span= usuario.rol
       else
         p No se encontró la información del usuario.
+    if !user
+      script.
+        window.location.assign("/")

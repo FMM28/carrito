@@ -37,3 +37,6 @@ html
                     button(type="submit") Ver Detalle
         else
           h1 No tienes tickets registrados
+  if !user
+      script.
+        window.location.assign("/")
