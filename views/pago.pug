@@ -1,30 +1,38 @@
 doctype html
 html
   head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet' href='/css/style.css')
-    title Seleccionar Método de Pago
+    title Registro de Pago
+    link(rel="stylesheet" href="/css/style.css")
+    link(rel="stylesheet" href="/css/styleRegistroPago.css")
   body
     nav
       ul
         li
-          a(href='/perfil') Perfil
-        li
-          a(href='/misCompras') Mis compras
-        li
-          a(href='/users/logout') Cerrar sesión
-
-    main
-      section#pago
-        h1 Selecciona un Método de Pago
-        p Total a pagar: $#{carrito_total}
-        
-        form(action="/comprar", method="post")
-          input(type="hidden" name="_csrf" value=csrfToken)
-          select(name="metodo_pago" required)
-            option(value="") Selecciona un método de pago
+          if !user
+            a(href='/users/login') Iniciar sesión
+          else
+            a(href='/') Inicio
+            if rol == 'admin'
+              a(href='/admin/tickets') Administración
+              a(href='/admin/altaAdmin') Alta Admininstrador
+              a(href='/admin/stock') Stock de productos
+            a(href='/users/perfil/'+user) Perfil
+            a(href='/users/logout') Cerrar sesión
+  main
+    section#registro-pago
+      h1 Registro de Pago
+      form(method="POST" action="/pagos/registro")
+        input(type="hidden" name="_csrf" value=csrf)
+        input(type="hidden" name="id_ticket" value=id_ticket)
+        .form-group
+          label(for="forma_pago") Forma de Pago:
+          select(name="forma_pago" id="forma_pago" required)
+            option(value="") Seleccione una opción
             option(value="efectivo") Efectivo
             option(value="tarjeta") Tarjeta
             option(value="transferencia") Transferencia
-          button(type="submit") Confirmar Compra
+        .form-group
+          label(for="pago") Monto del Pago:
+          input(type="number" name="pago" id="pago" step="0.01" min="0" required placeholder="Ingrese el monto del pago")
+        .form-actions
+          button(type="submit") Registrar Pago

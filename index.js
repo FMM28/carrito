@@ -10,6 +10,7 @@ import router_plataformas from "./routes/plataformas_router.js";
 import router_login from "./routes/login_router.js"
 import router_compras from "./routes/compras_router.js"
 import router_admin from "./routes/admin_router.js";
+import router_pagos from "./routes/pagos_router.js"
 
 
 const app = express()
@@ -56,8 +57,9 @@ app.use('/productos',router_plataformas)
 app.use('/users',router_login)
 app.use('/compras',router_compras)
 app.use('/admin',router_admin)
+app.use('/pagos',router_pagos)
 
 const port = 2800
-app.listen(port,()=>{
+app.listen(port,'192.168.1.65',()=>{
     console.log(`Esperando peticion en el puerto ${port}`)
 })

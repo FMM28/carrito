@@ -81,6 +81,14 @@ const mostrarProductosTicket = async (req, res) => {
     }
 };
 
+const mostrarPagos = async(req,res) => {
+    const { id_ticket } = req.params;
+    res.render('pago', {
+        csrf: req.csrfToken(),
+        id_ticket: id_ticket,
+    });
+}
+
 
 const comprar = async (req,res) =>{
     const { carrito, carrito_total, user } = req.session;
@@ -140,7 +148,7 @@ const comprar = async (req,res) =>{
     }
 }
 
-export { mostrarTicketsUsuario, comprar, mostrarProductosTicket };
+export { mostrarTicketsUsuario, comprar, mostrarProductosTicket, mostrarPagos };
 
 
 

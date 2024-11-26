@@ -39,6 +39,8 @@ html(lang="es")
                                 td $#{ticket.total.toFixed(2)}
                                 td
                                     a.btn.btn-primary(href=`/compras/misCompras/${ticket.id_ticket}`) Ver Detalles
+                                td
+                                    a.btn.btn-primary(href=`/compras/pago/${ticket.id_ticket}`) Pagar
             else
                 p.text-center.mt-5 No tienes tickets de compra.
 

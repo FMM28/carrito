@@ -84,20 +84,20 @@ INSERT INTO juegos (nombre, imagen, trailer) VALUES
 ('Halo Infinite', '/img/haloInfinite.png', 'https://www.youtube.com/watch?v=jsCb54BKKz4'),
 ('Forza Horizon 5', '/img/forzaHorizon5.png', 'https://www.youtube.com/watch?v=FYH9n37B7Yw'),
 ('Gears 5', '/img/gears5.png', 'https://www.youtube.com/watch?v=APqBWniRQbQ'),
-('Hellblade 2', '/img/hellbalde2.png', 'https://www.youtube.com/watch?v=qJWI4bkD9ZM'),
+('Hellblade 2', '/img/hellblade2.png', 'https://www.youtube.com/watch?v=qJWI4bkD9ZM'),
 ('ARK II', '/img/ark2.png', 'https://www.youtube.com/watch?v=D8KbXpk2J9Y&t=1s'),
 ('Starfield', '/img/starfield.png', 'https://www.youtube.com/watch?v=zmb2FJGvnAw'),
 ('Avowed', '/img/avowed.png', 'https://www.youtube.com/watch?v=ULsF7B6bFuU');
 
 -- Juegos Play
 INSERT INTO juegos (nombre, imagen, trailer) VALUES
-('The Last of Us Part II', 'img/tlou2.png', 'https://www.youtube.com/watch?v=vhII1qlcZ4E'),
-('God of War Ragnarok', 'img/gowRagnarok.png', 'https://www.youtube.com/watch?v=F3jePdO9_jc'),
-('Horizon Forbidden West', 'img/horizonFW.png', 'https://www.youtube.com/watch?v=rw-TJfL-w2g'),
-('Uncharted 4', 'img/uncharted4.png', 'https://www.youtube.com/watch?v=hh5HV4iic1Y'),
-('Bloodborne', 'bloodborne.png', 'https://www.youtube.com/watch?v=G203e1HhixY'),
-('Spider-Man 2', 'img/spiderMan2.png', 'https://www.youtube.com/watch?v=rCIV0y8jNy4'),
-('Returnal', 'img/returnal.png', 'https://www.youtube.com/watch?v=6VaVQxVWLMY');
+('The Last of Us Part II', '/img/tlou2.png', 'https://www.youtube.com/watch?v=vhII1qlcZ4E'),
+('God of War Ragnarok', '/img/gowRagnarok.png', 'https://www.youtube.com/watch?v=F3jePdO9_jc'),
+('Horizon Forbidden West', '/img/horizonFW.png', 'https://www.youtube.com/watch?v=rw-TJfL-w2g'),
+('Uncharted 4', '/img/uncharted4.png', 'https://www.youtube.com/watch?v=hh5HV4iic1Y'),
+('Bloodborne', '/bloodborne.png', 'https://www.youtube.com/watch?v=G203e1HhixY'),
+('Spider-Man 2', '/img/spiderMan2.png', 'https://www.youtube.com/watch?v=rCIV0y8jNy4'),
+('Returnal', '/img/returnal.png', 'https://www.youtube.com/watch?v=6VaVQxVWLMY');
 
 -- Juegos Nintendo
 INSERT INTO juegos (nombre, imagen, trailer) VALUES
