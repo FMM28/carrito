@@ -5,7 +5,7 @@ import rutaProteger from '../middleware/rutasProteger.js';
 const router = express.Router()
 
 router.get('/',rutaProteger, mostrarTicketsUsuario)
-router.get('/misCompras', rutaProteger, mostrarProductosTicket)
+router.get('/misCompras/:id_ticket', rutaProteger, mostrarProductosTicket)
 router.post('/comprar',rutaProteger,comprar)
 //router.post('/detalles', detalles)
 
