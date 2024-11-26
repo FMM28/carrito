@@ -16,8 +16,8 @@ router.get('/tickets/:id_ticket/productos',rutaProteger, mostrarProductosTicket)
 router.get('/altaAdmin',rutaProteger, mostrarFormularioAltaAdmin)
 router.post('/altaAdmin',rutaProteger, darAltaAdmin)
 
-router.get('/stock', mostrarProductos)
-router.post('/stock/aumentar-stock/:id_producto', aumentarStock);
+router.get('/stock',rutaProteger, mostrarProductos)
+router.post('/stock/aumentar-stock/:id_producto',rutaProteger, aumentarStock);
 
 
 export default router;
