@@ -1,6 +1,7 @@
 import db from '../../config/db.js';
 import Ticket from '../../models/Ticket.js';
 import Usuario from '../../models/Usuario.js';
+import Producto from '../../models/Producto.js';
 import { Op } from 'sequelize';
 
 const mostrarTickets = async (req, res) => {
@@ -110,9 +111,9 @@ const mostrarProductosTicket = async (req, res) => {
 
 const mostrarFormularioAltaAdmin = (req, res) => {
     try {
-        // Renderizar la vista altaAdmin
+        
         res.render('Admin/altaAdmin', {
-            csrf: req.csrfToken(), // Incluye un token CSRF para seguridad
+            csrf: req.csrfToken(), 
         });
     } catch (error) {
         console.error('Error al cargar el formulario de alta de administrador:', error);
@@ -154,12 +155,68 @@ const darAltaAdmin = async (req, res) => {
     }
 };
 
+const mostrarProductos = async (req, res) => {
+    try {
+        // Realizamos la consulta para obtener productos con el nombre del juego y la plataforma asociada
+        const productos = await db.query(
+            `SELECT 
+                p.id_producto, 
+                j.nombre AS nombre_juego,
+                p.precio,
+                p.stock,
+                pl.nombre AS plataforma
+            FROM 
+                productos p
+            JOIN 
+                juegos j ON p.id_juego = j.id_juego
+            JOIN 
+                plataformas pl ON p.id_plataforma = pl.id_plataforma`,
+            {
+                type: db.QueryTypes.SELECT // Esto es si estás usando Sequelize para manejar consultas SQL
+            }
+        );
 
+        // Renderizamos la vista y pasamos los productos y el CSRF Token
+        res.render('Admin/listaProductos', {
+            csrf: req.csrfToken(),  // Incluye el token CSRF para seguridad
+            productos: productos         // Pasamos los productos con la información del juego y plataforma
+        });
+    } catch (error) {
+        console.error('Error al obtener los productos:', error);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
+const aumentarStock = async (req, res) => {
+    const { id_producto } = req.params; // ID del producto que se va a actualizar
+
+    try {
+        // Encuentra el producto por su ID
+        const producto = await Producto.findByPk(id_producto); // Si usas Sequelize
+
+        if (!producto) {
+            console.log(`Producto con ID ${id_producto} no encontrado.`);
+            return res.status(404).send('Producto no encontrado.');
+        }
+
+        // Aumenta el stock en 1
+        producto.stock += 1;
+        await producto.save(); // Guarda el cambio
+
+        console.log(`Stock del producto con ID ${id_producto} aumentado.`);
+        res.redirect('/admin/stock'); // Redirige a la lista de productos o cualquier otra página
+    } catch (error) {
+        console.error('Error al aumentar el stock:', error);
+        res.status(500).send('Error en el servidor');
+    }
+};
 
 export {
     mostrarTickets,
     eliminarTicket,
     mostrarProductosTicket,
     mostrarFormularioAltaAdmin,
-    darAltaAdmin, 
+    darAltaAdmin,
+    mostrarProductos,
+    aumentarStock 
 };
