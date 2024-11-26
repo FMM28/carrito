@@ -11,8 +11,8 @@ const AccionMostrarTicketProducto = async (req,res) =>{
     });
     res.render("TicketProducto/ConsultarTicketProducto",{
         pagina:"Mi Ticket",
-        miTicket: TicketProducto
+        miTicket: ticketProducto
     });
 }
 
-export default AccionMostrarTicketProducto
+export default AccionMostrarTicketProducto;
