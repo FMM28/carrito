@@ -17,17 +17,36 @@ const mostrarTicketsUsuario = async (req, res) => {
             WHERE 
                 t.id_usuario`,
             { type: db.QueryTypes.SELECT,});
-
         // Renderizar la vista con datos
         res.render('compras', {
             csrf: req.csrfToken(),
             tickets,
+            ticket_productos,
         });
     } catch (error) {
         console.error('Error al obtener los tickets del usuario:', error);
         res.status(500).send('Error en el servidor');
     }
 };
+
+const detalles = async (req, res) => {
+    const ticket_productos = await db.query(
+        `SELECT
+            tp.id_ticket_producto,
+            tp.id_producto,
+            tp.cantidad,
+            tp.precio
+        FROM
+            ticket_productos tp
+        JOIN
+            tickets t ON tp.id_ticket = t.id_ticket`,
+        { type: db.QueryTypes.SELECT,})
+
+        res.render('detalle', {
+            csrf: req.csrfToken(),
+            ticket_productos,
+        });
+}
 
 const comprar = async (req,res) =>{
     const { carrito, carrito_total, user } = req.session;
@@ -87,7 +106,7 @@ const comprar = async (req,res) =>{
     }
 }
 
-export { mostrarTicketsUsuario, comprar };
+export { mostrarTicketsUsuario, comprar, detalles };
 
 
 
