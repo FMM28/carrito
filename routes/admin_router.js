@@ -1,5 +1,5 @@
 import express from 'express';
-import { mostrarTickets, eliminarTicket, mostrarProductosTicket, darAltaAdmin, mostrarFormularioAltaAdmin } from '../controllers/admin/adminController.js';
+import { mostrarTickets, eliminarTicket, mostrarProductosTicket, darAltaAdmin, mostrarFormularioAltaAdmin, mostrarProductos, aumentarStock } from '../controllers/admin/adminController.js';
 import rutaProteger from '../middleware/rutasProteger.js';
 
 const router = express.Router();
@@ -15,5 +15,9 @@ router.get('/tickets/:id_ticket/productos',rutaProteger, mostrarProductosTicket)
 
 router.get('/altaAdmin',rutaProteger, mostrarFormularioAltaAdmin)
 router.post('/altaAdmin',rutaProteger, darAltaAdmin)
+
+router.get('/stock', mostrarProductos)
+router.post('/stock/aumentar-stock/:id_producto', aumentarStock);
+
 
 export default router;
